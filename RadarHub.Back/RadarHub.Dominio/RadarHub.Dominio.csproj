@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RSK\RSK.Dominio\RSK.Dominio.csproj" />
+    <ProjectReference Include="..\RadarHub.Integracoes\RadarHub.Integracoes.csproj" />
+  </ItemGroup>
+
+</Project>
