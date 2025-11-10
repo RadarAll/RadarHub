@@ -48,7 +48,7 @@ namespace RadarHub.Dominio.Servicos
                 // Processar cada órgão
                 foreach (var item in filtros.Filters.Orgaos)
                 {
-                    var existente = await _repositorio.ObterPorIdTerceiroAssincrono(item.Id);
+                    var existente = await ObterPorIdTerceiroAssincrono(item.Id);
 
                     if (existente == null)
                     {
@@ -59,7 +59,7 @@ namespace RadarHub.Dominio.Servicos
                     else if (!string.Equals(existente.Nome, item.Nome, StringComparison.OrdinalIgnoreCase))
                     {
                         existente.Nome = item.Nome;
-                        await _repositorio.AtualizarAssincrono(existente);
+                        _repositorio.AtualizarAssincrono(existente);
                         atualizadas++;
                     }
                 }

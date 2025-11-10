@@ -1,6 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RadarHub.Integracoes.Pnc
 {
@@ -58,36 +59,57 @@ namespace RadarHub.Integracoes.Pnc
         /// Retorna todas as licitações que estão com status "recebendo_proposta".
         /// Faz a paginação automaticamente até carregar todos os resultados.
         /// </summary>
-        //public async Task<List<LicitacaoResponse>> GetTodasLicitacoesRecebendoProposta(int tamanhoPagina = 1000)
-        //{
-        //    var todas = new List<LicitacaoResponse>();
-        //    int pagina = 1;
-        //    int totalPaginas = 1;
+        public async Task<List<LicitacaoResponse>> GetTodasLicitacoesRecebendoProposta(int tamanhoPagina = 1000)
+        {
+            var todas = new List<LicitacaoResponse>();
+            int pagina = 1;
+            int totalPaginas = 1;
+            long totalItens = 0;
 
-        //    do
-        //    {
-        //        string parametros = $"?tipos_documento=edital&ordenacao=-data&pagina={pagina}&tam_pagina={tamanhoPagina}&status=recebendo_proposta";
-        //        string json = await GetAsync($"/api/search/{parametros}");
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                NumberHandling = JsonNumberHandling.AllowReadingFromString
+            };
 
-        //        var resposta = JsonSerializer.Deserialize<LicitacaoDto>(json);
+            do
+            {
+                string parametros = $"?tipos_documento=edital&ordenacao=-data&pagina={pagina}&tam_pagina={tamanhoPagina}&status=recebendo_proposta";
+                string endpoint = $"/api/search/{parametros}";
 
-        //        if (resposta?.Items != null)
-        //        {
-        //            todas.AddRange(resposta.Items);
-        //        }
+                string json;
+                try
+                {
+                    json = await GetAsync(endpoint);
+                }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine($"[ERRO] Falha ao requisitar página {pagina}: {ex.Message}");
+                    break;
+                }
 
-        //        long total = resposta.Total;
-        //        totalPaginas = (int)Math.Ceiling((double)total / tamanhoPagina);
+                var resposta = JsonSerializer.Deserialize<LicitacaoDto>(json, options);
 
-        //        Console.WriteLine($"Página {pagina}/{totalPaginas} carregada ({todas.Count} itens até agora)");
+                if (resposta?.Items != null && resposta.Items.Any())
+                    todas.AddRange(resposta.Items);
 
-        //        pagina++;
+                if (totalItens == 0)
+                {
+                    totalItens = resposta?.Total ?? 0;
+                    totalPaginas = (int)Math.Ceiling((double)totalItens / tamanhoPagina);
+                }
 
-        //        await Task.Delay(500);
+                Console.WriteLine($"Página {pagina}/{totalPaginas} carregada ({todas.Count} de {totalItens} itens)");
 
-        //    } while (pagina <= totalPaginas);
+                if (pagina >= totalPaginas || resposta?.Items?.Count < tamanhoPagina)
+                    break;
 
-        //    return todas;
-        //}
+                pagina++;
+
+                await Task.Delay(500);
+            } while (true);
+
+            return todas;
+        }
     }
 }

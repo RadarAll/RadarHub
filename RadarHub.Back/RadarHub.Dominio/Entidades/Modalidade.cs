@@ -12,7 +12,7 @@ namespace RadarHub.Dominio.Entidades
             this.Nome = nome;
         }
 
-        private Modalidade()
+        public Modalidade()
         {
         }
 

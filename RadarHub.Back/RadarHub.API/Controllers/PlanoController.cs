@@ -5,12 +5,12 @@ using RSK.Dominio.Notificacoes.Interfaces;
 
 namespace RSK.API.Controllers
 {
-    public class SegmentoController : ApiCrudControllerBase<Segmento>
+    public class PlanoController : ApiCrudControllerBase<Plano>
     {
 
-        public SegmentoController(
-            IServicoConsultaBase<Segmento> servicoConsulta,
-            SegmentoServico servicoUsuario,
+        public PlanoController(
+            IServicoConsultaBase<Plano> servicoConsulta,
+            PlanoServico servicoUsuario,
             INotificador notificador
         ) : base(servicoConsulta, servicoUsuario, notificador)
         {

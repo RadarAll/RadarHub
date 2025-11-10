@@ -1,0 +1,34 @@
+:root {
+  --primary: #17663a;       /* verde principal */
+  --primary-hover: #12542f; /* verde mais escuro */
+  --secondary: #aff38f;     /* cinza claro */
+  --neutral-light: #17663a;
+  --neutral-dark: #17663a;
+  
+}
+
+.bg-green-primary{
+  background-color: var(--primary);
+}
+
+.text-green-primary{
+  color: var(--primary);
+}
+.text-green-primary{
+  color: var(--primary);
+}
+
+
+.bg-green-hover{
+  background-color: var(--primary-hover);
+}
+.bg-green-hover-v1{
+  background-color: #eef0e8;
+}
+.bg-green-dark{
+  background-color: var(--primary-hover) !important;
+}
+
+button{
+  cursor: pointer;
+}

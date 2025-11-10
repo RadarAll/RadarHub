@@ -46,7 +46,7 @@ namespace RadarHub.Dominio.Servicos
 
                 foreach (var item in filtros.Filters.Poderes)
                 {
-                    var existente = await _repositorio.ObterPorIdTerceiroAssincrono(item.Id);
+                    var existente = await ObterPorIdTerceiroAssincrono(item.Id);
 
                     if (existente == null)
                     {
@@ -57,7 +57,7 @@ namespace RadarHub.Dominio.Servicos
                     else if (!string.Equals(existente.Nome, item.Nome, StringComparison.OrdinalIgnoreCase))
                     {
                         existente.Nome = item.Nome;
-                        await _repositorio.AtualizarAssincrono(existente);
+                        _repositorio.AtualizarAssincrono(existente);
                         atualizadas++;
                     }
                 }

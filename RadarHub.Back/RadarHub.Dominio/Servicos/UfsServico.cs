@@ -47,7 +47,7 @@ namespace RadarHub.Dominio.Servicos
                 // Processar cada UF
                 foreach (var item in filtros.Filters.Ufs)
                 {
-                    var existente = await _repositorio.ObterPorIdTerceiroAssincrono(item.Id);
+                    var existente = await ObterPorIdTerceiroAssincrono(item.Id);
 
                     if (existente == null)
                     {
@@ -58,7 +58,7 @@ namespace RadarHub.Dominio.Servicos
                     else if (!string.Equals(existente.IdTerceiro, item.Id, StringComparison.OrdinalIgnoreCase))
                     {
                         existente.IdTerceiro = item.Id;
-                        await _repositorio.AtualizarAssincrono(existente);
+                        _repositorio.AtualizarAssincrono(existente);
                         atualizadas++;
                     }
                 }

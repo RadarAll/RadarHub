@@ -21,6 +21,9 @@ public partial class RadarHubDbContext : DbContext
     public DbSet<PerfilPermissao> PerfilPermissao { get; set; }
     public DbSet<UsuarioBase> UsuarioBase { get; set; }
     public DbSet<UsuarioPerfil> UsuarioPerfil { get; set; }
+    public DbSet<Licitacao> Licitacoes { get; set; }
+    public DbSet<Segmento> Segmentos { get; set; }
+    public DbSet<Plano> Planos { get; set; }
 
 
     public DbSet<TipoMargemPreferencia> TiposMargemPreferencia { get; set; }

@@ -92,6 +92,9 @@ namespace RadarHub.API
             builder.Services.AddScoped<EsferaServico>();
             builder.Services.AddScoped<TipoMargemPreferenciaServico>();
             builder.Services.AddScoped<FonteOrcamentariaServico>();
+            builder.Services.AddScoped<LicitacaoServico>();
+            builder.Services.AddScoped<SegmentoServico>();
+            builder.Services.AddScoped<PlanoServico>();
 
 
             // ======= Agendamentos ========
@@ -157,6 +160,12 @@ namespace RadarHub.API
                 metodo: "ImportarAsync",
                 tipoAgendamento: TipoAgendamento.Semanal,
                 horaInicio: new TimeOnly(3, 0)
+            ); 
+            builder.Services.AdicionarJobServico<LicitacaoServico>(
+                nomeJob: "ImportacaoLicitacao",
+                metodo: "ImportarAsync",
+                tipoAgendamento: TipoAgendamento.Diario,
+                horaInicio: new TimeOnly(2, 0)
             );
 
             // ======= Repositórios de importação =======
@@ -170,6 +179,7 @@ namespace RadarHub.API
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<Esfera>, RepositorioImportacaoTerceiro<Esfera, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<TipoMargemPreferencia>, RepositorioImportacaoTerceiro<TipoMargemPreferencia, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<FonteOrcamentaria>, RepositorioImportacaoTerceiro<FonteOrcamentaria, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioImportacaoTerceiro<Licitacao>, RepositorioImportacaoTerceiro<Licitacao, RadarHubDbContext>>();
 
 
             builder.Services.AddScoped<IRepositorioBaseAssincrono<Modalidade>, RepositorioBaseAssincrono<Modalidade, RadarHubDbContext>>();
@@ -182,6 +192,9 @@ namespace RadarHub.API
             builder.Services.AddScoped<IRepositorioBaseAssincrono<Esfera>, RepositorioBaseAssincrono<Esfera, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioBaseAssincrono<TipoMargemPreferencia>, RepositorioBaseAssincrono<TipoMargemPreferencia, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioBaseAssincrono<FonteOrcamentaria>, RepositorioBaseAssincrono<FonteOrcamentaria, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioBaseAssincrono<Licitacao>, RepositorioBaseAssincrono<Licitacao, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioBaseAssincrono<Segmento>, RepositorioBaseAssincrono<Segmento, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioBaseAssincrono<Plano>, RepositorioBaseAssincrono<Plano, RadarHubDbContext>>();
 
             // ======= Repositórios e serviços base =======
             builder.Services.AddScoped(typeof(IRepositorioBaseAssincrono<>), typeof(RepositorioBaseRadarHub<>));
@@ -217,16 +230,16 @@ namespace RadarHub.API
 
             // ======= Controllers =======
             builder.Services.AddControllers()
-            .AddApplicationPart(typeof(RSK.API.Controllers.UsuarioController).Assembly)
+            //.AddApplicationPart(typeof(RSK.API.Controllers.UsuarioController).Assembly)
             .AddJsonOptions(opt =>
             {
                 opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
             })
-            .AddOData(opt =>
-            {
-                opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100);
-                opt.AddRouteComponents("api", GetEdmModel());
-            });
+           .AddOData(opt =>
+           {
+               opt.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100);                                                                              
+               opt.AddRouteComponents("api", GetEdmModel());
+           });
 
 
             // ======= Swagger =======
@@ -266,6 +279,16 @@ namespace RadarHub.API
 
 
             var app = builder.Build();
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var contexto = scope.ServiceProvider.GetRequiredService<RadarHubDbContext>();
+            //    Console.WriteLine($"Conexão: {contexto.Database.GetConnectionString()}");
+
+            //    contexto.Add(new Modalidade { IdTerceiro = "teste", Nome = "TesteDireto" });
+            //    var result = contexto.SaveChanges();
+            //    Console.WriteLine($"{result} registro(s) salvo(s)!");
+            //}
+
 
             // ======= Middleware pipeline =======
             if (app.Environment.IsDevelopment())
@@ -279,6 +302,7 @@ namespace RadarHub.API
             app.UseCors("AllowAll");            // Habilita CORS
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseODataRouteDebug();
 
             app.MapControllers();
             app.Run();
@@ -304,6 +328,7 @@ namespace RadarHub.API
             builder.EntitySet<TipoMargemPreferencia>("TipoMargemPreferencia").EntityType.HasKey(e => e.Id);
             builder.EntitySet<FonteOrcamentaria>("FonteOrcamentaria").EntityType.HasKey(e => e.Id);
             builder.EntitySet<UsuarioBase>("UsuarioBase").EntityType.HasKey(e => e.Id);
+            builder.EntitySet<Licitacao>("Licitacao").EntityType.HasKey(e => e.Id);
 
             // Entidades de RSK.Dominio.Autorizacao.Entidades
             builder.EntitySet<AplicacaoPermitida>("AplicacaoPermitida").EntityType.HasKey(e => e.Id);
