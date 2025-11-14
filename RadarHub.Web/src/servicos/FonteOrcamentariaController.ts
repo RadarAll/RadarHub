@@ -2,7 +2,7 @@ import { FonteOrcamentaria } from "../DTO/FonteOrcamentaria";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon"
 
-class FonteOrcamentariaServico extends ConsultaServicoBase<FonteOrcamentaria> {
+class FonteOrcamentariaController extends ConsultaServicoBase<FonteOrcamentaria> {
     constructor() {
         super("FonteOrcamentaria")
     }
@@ -12,4 +12,6 @@ class FonteOrcamentariaServico extends ConsultaServicoBase<FonteOrcamentaria> {
     }
 }
 
-export default new FonteOrcamentariaServico();
+const FonteOrcamentariaServico = new FonteOrcamentariaController()
+
+export default FonteOrcamentariaServico;

@@ -98,7 +98,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
-import OrgaoServico from '../servicos/OrgaoServico'
+import OrgaoServico from '../servicos/OrgaoController'
 
 const orgaos = ref([])
 const filtro = ref('')

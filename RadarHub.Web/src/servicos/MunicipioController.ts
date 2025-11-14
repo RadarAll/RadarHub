@@ -2,7 +2,7 @@ import { Municipio } from "@/DTO/Municipio";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class MunicipioServico extends ConsultaServicoBase<Municipio> {
+class MunicipioController extends ConsultaServicoBase<Municipio> {
     constructor() {
         super("Municipio")
     }
@@ -12,4 +12,6 @@ class MunicipioServico extends ConsultaServicoBase<Municipio> {
     }
 }
 
-export default new MunicipioServico();
+const MunicipioServico = new MunicipioController();
+
+export default MunicipioServico;

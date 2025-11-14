@@ -2,7 +2,7 @@ import { Tipo } from "@/DTO/Tipo";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class TipoServico extends ConsultaServicoBase<Tipo> {
+class TipoController extends ConsultaServicoBase<Tipo> {
     constructor() {
         super("Tipo")
     }
@@ -12,4 +12,6 @@ class TipoServico extends ConsultaServicoBase<Tipo> {
     }
 }
 
-export default new TipoServico();
+const TipoServico = new TipoController();
+
+export default TipoServico;

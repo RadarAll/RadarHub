@@ -77,7 +77,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import ModalidadeServico from '@/servicos/ModalidadeServico';
+import ModalidadeServico from '@/servicos/ModalidadeController';
 
 // ============ ESTADOS REATIVAS ============
 const modalidades = ref([]);

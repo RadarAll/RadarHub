@@ -2,7 +2,7 @@ import { Orgao } from "@/DTO/Orgao";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class OrgaoServico extends ConsultaServicoBase<Orgao> {
+class OrgaoController extends ConsultaServicoBase<Orgao> {
     constructor() {
         super("Orgao");
     }
@@ -12,4 +12,6 @@ class OrgaoServico extends ConsultaServicoBase<Orgao> {
     }
 }
 
-export default new OrgaoServico();
+const OrgaoServico = new OrgaoController();
+
+export default OrgaoServico;

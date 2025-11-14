@@ -2,7 +2,7 @@ import { Unidade } from "@/DTO/Unidade";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class UnidadeServico extends ConsultaServicoBase<Unidade> {
+class UnidadeController extends ConsultaServicoBase<Unidade> {
     constructor() {
         super("Unidade")
     }
@@ -12,4 +12,6 @@ class UnidadeServico extends ConsultaServicoBase<Unidade> {
     }
 }
 
-export default new UnidadeServico();
+const UnidadeServico = new UnidadeController();
+
+export default UnidadeServico;

@@ -2,7 +2,7 @@ import { TipoMargemPreferencia } from "@/DTO/TipoMargemPreferencia";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class TipoMargemPreferenciaServico extends ConsultaServicoBase<TipoMargemPreferencia> {
+class TipoMargemPreferenciaController extends ConsultaServicoBase<TipoMargemPreferencia> {
     constructor() {
         super("TipoMargePreferencia")
     }
@@ -12,4 +12,6 @@ class TipoMargemPreferenciaServico extends ConsultaServicoBase<TipoMargemPrefere
     }
 }
 
-export default new TipoMargemPreferenciaServico();
+const TipoMargemPreferenciaServico = new TipoMargemPreferenciaController()
+
+export default TipoMargemPreferenciaServico;

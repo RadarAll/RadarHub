@@ -2,7 +2,7 @@ import { Poder } from "@/DTO/Poder";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class PoderServico extends ConsultaServicoBase<Poder> {
+class PoderController extends ConsultaServicoBase<Poder> {
     constructor() {
         super("Poder");
     }
@@ -12,4 +12,6 @@ class PoderServico extends ConsultaServicoBase<Poder> {
     }
 }
 
-export default new PoderServico();
+const PoderServico = new PoderController()
+
+export default PoderServico;

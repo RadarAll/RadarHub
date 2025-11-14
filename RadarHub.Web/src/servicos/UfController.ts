@@ -2,7 +2,7 @@ import { Uf } from "@/DTO/Uf";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class UfServico extends ConsultaServicoBase<Uf> {
+class UfController extends ConsultaServicoBase<Uf> {
     constructor() {
         super("Uf")
     }
@@ -12,4 +12,6 @@ class UfServico extends ConsultaServicoBase<Uf> {
     }
 }
 
-export default new UfServico();
+const UfServico = new UfController();
+
+export default UfServico;

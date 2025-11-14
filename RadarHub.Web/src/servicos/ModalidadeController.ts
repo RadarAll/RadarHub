@@ -2,7 +2,7 @@ import { Modalidade } from "../DTO/Modalidade";
 import { ConsultaServicoBase } from "./ConsultaServicoBase";
 import http from "./http-comon";
 
-class ModalidadeServico extends ConsultaServicoBase<Modalidade>{
+class ModalidadeController extends ConsultaServicoBase<Modalidade>{
     constructor(){
         super("Modalidade") 
     }
@@ -13,4 +13,6 @@ class ModalidadeServico extends ConsultaServicoBase<Modalidade>{
     
 }
 
-export default new ModalidadeServico();
+const ModalidadeServico = new ModalidadeController();
+
+export default ModalidadeServico;
