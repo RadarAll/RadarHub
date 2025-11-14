@@ -1,6 +1,6 @@
 import { EntidadeBase } from "./EntidadeBase";
 
-export interface UsuarioBase extends EntidadeBase {
+export interface Usuario extends EntidadeBase {
   nomeCompleto: string;
   email: string;
   senhaHash: string;
