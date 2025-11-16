@@ -6,21 +6,21 @@
                 </div>
         </v-navigation-drawer>
         <v-app-bar class="elevation-1"></v-app-bar>
-        <v-main>
+        <v-main class="bg-grey-lighten-5">
             <v-container class="ma-2 mt-15">
                 <v-row>
                     <v-col cols="8">
-                        <h1 class="text-green-primary"> Modalidades de Licitações </h1>
+                        <h1 class="text-green-light-md mb-5"> Modalidades de Licitações </h1>
                         <v-table class="border rounded elevation-2" density="comfortable">
                             <thead>
                                 <tr>
-                                    <th class="text-h6 font-weight-bold">
+                                    <th class="text-h6 text-green-primary font-weight-semibold">
                                         Id
                                     </th>
-                                    <th class="text-h6 font-weight-bold">
+                                    <th class="text-h6 text-green-primary font-weight-semibold">
                                         Nome
                                     </th>
-                                    <th class="text-h6 font-weight-bold">
+                                    <th class="text-h6 text-green-primary font-weight-semibold">
                                         Ações
                                     </th>
                                 </tr>
