@@ -102,7 +102,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
-import LicitacaoServico from '../servicos/LicitacaoServico'
+import LicitacaoServico from '../servicos/LicitacaoController'
 
 const licitacoes = ref([])
 const filtro = ref('')

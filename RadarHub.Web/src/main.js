@@ -8,6 +8,8 @@ import './assets/css/style.css'
 import './index.css'
 import './all.css'
 import '@vueform/multiselect/themes/default.css'
+import vuetify from './plugins/vuetify'
+
 
 const app = createApp(App)
 
@@ -29,5 +31,5 @@ const toastOptions = {
 app.use(router)
 app.use(Toast, toastOptions)
 app.use(VueTheMask)
-
+app.use(vuetify) 
 app.mount('#app')
