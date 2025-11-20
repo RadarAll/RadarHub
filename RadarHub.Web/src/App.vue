@@ -1,15 +1,20 @@
 <script setup>
 import { RouterView, useRoute } from 'vue-router'
-import SideMenu from './components/SideMenu.vue'
+import NavigationDrawer from './components/NavigationDrawer.vue';
+import AppBar from './components/AppBar.vue';
 
 const route = useRoute()
 </script>
 
 <template>
+  <v-app>
+    <NavigationDrawer></NavigationDrawer>
+    <AppBar></AppBar>
+    <main :class="route.path !== '/' && route.path !== '/login' ? 'ml-[70px]' : ''">
+      <RouterView />
+    </main>
+  </v-app>
   
-  <main :class="route.path !== '/' && route.path !== '/login' ? 'ml-[70px]' : ''">
-    <RouterView />
-  </main>
 </template>
 
 <style scoped>

@@ -12,6 +12,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@mdi/font": "^7.4.47",
     "@vueform/multiselect": "^2.6.11",
     "@vueuse/core": "^14.0.0",
     "axios": "^1.13.2",
