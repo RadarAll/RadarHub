@@ -39,14 +39,14 @@
 
                     <v-col cols="4">
                         <!-- Coluna para detalhes -->
-                         <v-card class="elevation-2 rounded-lg" style="border-top: 4px solid var(--neutral-dark);">
-                            <v-card-title class="bg-green-light pa-4">
+                         <v-card v-if="selectedItem" class="elevation-2 rounded-lg h-100"  style="border-top: 4px solid var(--neutral-dark);">
+                            <v-card-title class="bg-green-light pa-4 w-100">
                                 <v-icon color="green-dark-md" class="mr-2">mdi-information-outline</v-icon>
                                 <span class="text-h6 text-green-primary font-weight-bold">Detalhes</span>
                             </v-card-title>
                             <v-divider></v-divider>
 
-                            <v-card-text class="pa-4" v-if="selectedItem">
+                            <v-card-text class="d-block text-start pa-4">
                                 <div class="mb-4">
                                     <v-chip color="green-primary" label class="mb-3">
                                         <v-icon start>mdi-gavel</v-icon>
@@ -109,17 +109,29 @@
 
                                 </v-list>
                             </v-card-text>
+                         </v-card>
 
-                            <v-card-text class="pa-8 text-center text-grey-darken-1" v-else>
+                         <v-card v-else class="elevation-2 rounded-lg h-100 d-flex flex-column justify-center align-center" style="border-top: 4px solid var(--neutral-dark);">
+                            <v-card-title class="bg-green-light pa-4 w-100">
+                                <v-icon color="green-dark-md" class="mr-2">mdi-information-outline</v-icon>
+                                <span class="text-h6 text-green-primary font-weight-bold">Detalhes</span>
+                            </v-card-title>
+                            <v-divider></v-divider>
+
+                            <v-card-text class="d-flex flex-column justify-center align-center pa-8 text-center text-grey-darken-1">
                                 <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-cursor-default-click</v-icon>
                                 <div class="text-body-2">
                                     Selecione uma modalidade para ver os detalhes
                                 </div>
                             </v-card-text>
                          </v-card>
+
+                         
                     </v-col>
 
                 </v-row>
+                <Alert :visivel="mensagem.visivel" :tipo="mensagem.tipo" :texto="mensagem.texto" :loading="isLoading"></Alert>
+
             </v-container>
         </v-main>
 
@@ -128,6 +140,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import ModalidadeServico from '@/servicos/ModalidadeController'
+import Alert from '@/components/Alert.vue';
 
 const selectedItem = ref(null);
 const isLoading = ref(false);
@@ -146,12 +159,16 @@ function selectItem(event, { item }) {
     selectedItem.value = item
 }
 
-function exibirMensagem(texto, tipo = 'info') {
+function exibirMensagem(texto, tipo = 'info', duracao = 3000) {
     mensagem.value = {
         visivel: true,
         tipo,
         texto
     }
+
+    setTimeout(() => {
+    mensagem.value.visivel = false
+}, duracao)
 }
 
 async function importarModalidades() {
@@ -166,7 +183,7 @@ async function importarModalidades() {
         }
     } catch (error) {
         console.error('Erro ao importar modalidades: ', error);
-        exibirMensagem('Erro ao importar modalidades', 'error');
+        exibirMensagem('Erro ao importar modalidades.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
@@ -181,10 +198,11 @@ async function carregarModalidades() {
         if (response.status >= 200 && response.status < 300) {
             modalidades.value = response.data || [];
         }
+        exibirMensagem('Modalidades importadas com sucesso!', 'success', 3000)
 
     } catch (error) {
         console.error('Erro ao carregar modalidades:', error);
-        exibirMensagem('Erro ao carregar modalidades:', 'error');
+        exibirMensagem('Erro ao carregar modalidades: ', 'error', 3000);
     } finally {
         isLoading.value = false;
     }

@@ -5,8 +5,9 @@ const apiClient: AxiosInstance = axios.create({
   headers: {
     "Content-type": "application/json",
     // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0ZUBnbWFpbC5jb20iLCJqdGkiOiIzYjJiNjY3OC1lYWI4LTQwYjgtYWJlYy02ZjI5NjUyNDI1MjgiLCJub21lIjoiVGVzdGUiLCJ1c3VhcmlvSWQiOiIxIiwiZXhwIjoxNzYyOTk5MDQwLCJpc3MiOiJSYWRhckh1YkFQSSIsImF1ZCI6IlJhZGFySHViQVBJVXNlcnMifQ.SwkbqOocgfnsM3v6uB72Oo34SQJol-5sy21rpvWLOy0`
+    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHJpbmdAZ21haWwuY29tIiwianRpIjoiZWI5NTc1ZWItODQzYy00ODI0LTg2MjYtM2ZmNmJiZWE1ZmFkIiwibm9tZSI6InN0cmluZyIsInVzdWFyaW9JZCI6IjEiLCJleHAiOjE3NjM3Njc1NzgsImlzcyI6Im1ldV9pc3N1ZXIiLCJhdWQiOiJtaW5oYV9hdWRpZW5jZSJ9.2C3PmjIYWWN3d1_O9lmQ4t_0cOJuCE7yuyBFCVjSw7o`
   },
 });
 
 export default apiClient;
+
