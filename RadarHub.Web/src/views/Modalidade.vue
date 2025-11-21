@@ -1,9 +1,9 @@
 <template>
         <v-main class="bg-grey-lighten-4">
-            <v-container class="ma-2 mt-15">
+            <v-container class="ma-2 mt-15 fluid">
                 <v-row>
-                    <v-col cols="7">
-                        <v-card class="elevation-2 rounded-lg">
+                    <v-col cols="12" md="8">
+                        <v-card class="elevation-2 rounded-lg h-100">
                             <v-card-title class="d-flex align center pa-4 bg-green-light">
                                 <span class="text-h6 font-weight-bold text-green-primary">Modalidades</span>
                                 <v-spacer></v-spacer>
@@ -21,6 +21,7 @@
                             :items="modalidades"
                             class="elevation-0"
                             :items-per-page="5"
+                            density="comfortable"
                             @click:row="selectItem">
 
                             <template v-slot:item.id="{ item }">

@@ -1,5 +1,5 @@
 <template>
-  <v-row class="d-flex justify-center pt-12">
+  <v-row class="d-flex justify-center pt-15">
 
     <!-- Sucesso -->
     <div v-if="visivel && tipo === 'success'" class="w-25">
