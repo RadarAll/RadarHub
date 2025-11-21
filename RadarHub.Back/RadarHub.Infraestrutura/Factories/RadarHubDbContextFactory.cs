@@ -8,7 +8,7 @@ namespace RadarHub.Repositorio
     {
         public RadarHubDbContext CreateDbContext(string[] args)
         {
-            var connectionString = "server=localhost;user id=root;password=mysql;database=db_radarhub;AllowLoadLocalInfile=true;";
+            var connectionString = "Server=localhost;Database=db_radarhub;Uid=radarhub;Pwd=senha123;";
 
             var optionsBuilder = new DbContextOptionsBuilder<RadarHubDbContext>();
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

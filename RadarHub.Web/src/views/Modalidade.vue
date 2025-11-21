@@ -1,13 +1,13 @@
 <template>
         <v-main class="bg-grey-lighten-4">
-            <v-container class="ma-8 mt-15">
+            <v-container class="ma-2 mt-15">
                 <v-row>
-                    <v-col cols="8">
+                    <v-col cols="7">
                         <v-card class="elevation-2 rounded-lg">
                             <v-card-title class="d-flex align center pa-4 bg-green-light">
                                 <span class="text-h6 font-weight-bold text-green-primary">Modalidades</span>
                                 <v-spacer></v-spacer>
-                                <v-btn color="green-primary">
+                                <v-btn @click="importarModalidades" color="green-primary">
                                     <v-icon>mdi-import</v-icon>
                                     Importar
                                 </v-btn>
@@ -18,9 +18,9 @@
 
                             <v-data-table
                             :headers="headers"
-                            :items="mock"
+                            :items="modalidades"
                             class="elevation-0"
-                            :items-per-page="10"
+                            :items-per-page="5"
                             @click:row="selectItem">
 
                             <template v-slot:item.id="{ item }">
@@ -74,6 +74,39 @@
                                                 {{ selectedItem.nome }}
                                         </v-list-item-subtitle>
                                     </v-list-item>
+
+                                    <v-list-item class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-calendar-plus</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Criado em</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            {{ selectedItem.criadoEm }}
+                                        </v-list-item-subtitle>
+
+                                    </v-list-item>
+
+                                    <v-list-item class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-clock-edit-outline</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Ultima Alteração</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            {{ selectedItem.ultimaAlteracao }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-account-key-outline</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Id Terceiro</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            {{ selectedItem.idTerceiro }}
+                                        </v-list-item-subtitle>
+                                        
+                                    </v-list-item>
+
                                 </v-list>
                             </v-card-text>
 
@@ -93,29 +126,71 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import ModalidadeServico from '@/servicos/ModalidadeController'
 
-const selectedItem = ref(null)
-
-const mock = [
-  { "id": 1, "nome": "Concorrência" },
-  { "id": 2, "nome": "Pregão Eletrônico" },
-  { "id": 3, "nome": "Pregão Presencial" },
-  { "id": 4, "nome": "Tomada de Preços" },
-  { "id": 5, "nome": "Dispensa de Licitação" },
-  { "id": 6, "nome": "Inexigibilidade" },
-  { "id": 7, "nome": "Leilão" },
-  { "id": 8, "nome": "Concurso" },
-  { "id": 9, "nome": "Regime Diferenciado de Contratações (RDC)" },
-  { "id": 10, "nome": "Diálogo Competitivo" },
-  { "id": 11, "nome": "Chamamento Público" },
-  { "id": 12, "nome": "Credenciamento" },
-  { "id": 13, "nome": "Registro de Preços" },
-  { "id": 14, "nome": "Cotação Eletrônica" },
-  { "id": 15, "nome": "Manifestação de Interesse" }
-]
+const selectedItem = ref(null);
+const isLoading = ref(false);
+const mensagem = ref({
+    visivel: false,
+    tipo: 'info',
+    texto: ''
+});
+const modalidades = ref([]);
+const headers = [
+  { title: 'ID', key: 'id' },
+  { title: 'Nome', key: 'nome' }
+];
 
 function selectItem(event, { item }) {
     selectedItem.value = item
 }
+
+function exibirMensagem(texto, tipo = 'info') {
+    mensagem.value = {
+        visivel: true,
+        tipo,
+        texto
+    }
+}
+
+async function importarModalidades() {
+    isLoading.value = true;
+
+    try {
+        const response = await ModalidadeServico.importar();
+
+        if (response.status >= 200 && response.status < 300) {
+            exibirMensagem("Modalidades importadas com sucesso!", 'success');
+            await carregarModalidades();
+        }
+    } catch (error) {
+        console.error('Erro ao importar modalidades: ', error);
+        exibirMensagem('Erro ao importar modalidades', 'error');
+    } finally {
+        isLoading.value = false;
+    }
+}
+
+async function carregarModalidades() {
+    isLoading.value = true;
+
+    try {
+        const response = await ModalidadeServico.obterTodos();
+
+        if (response.status >= 200 && response.status < 300) {
+            modalidades.value = response.data || [];
+        }
+
+    } catch (error) {
+        console.error('Erro ao carregar modalidades:', error);
+        exibirMensagem('Erro ao carregar modalidades:', 'error');
+    } finally {
+        isLoading.value = false;
+    }
+}
+
+onMounted (() => {
+    carregarModalidades();
+});
 </script>
