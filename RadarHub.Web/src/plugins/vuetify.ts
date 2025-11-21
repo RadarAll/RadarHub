@@ -26,18 +26,18 @@ export default createVuetify({
           'neutral-dark': '#040712',
 
           // 🔴 Vermelhos
-          'red-primary': '#b71c1c',     // vermelho principal
-          'red-dark': '#7f0000',        // vermelho bem escuro
-          'red-light': '#ffcdd2',       // vermelho claro
-          'red-light-md': '#ef9a9a',    // vermelho médio claro
-          'red-dark-md': '#c62828',     // vermelho médio escuro
+          'red-primary': '#b71c1c',
+          'red-dark': '#7f0000',
+          'red-light': '#ffcdd2',
+          'red-light-md': '#ef9a9a',
+          'red-dark-md': '#c62828', 
 
           // 🔵 Azuis
-          'blue-primary': '#1565c0',    // azul principal
-          'blue-dark': '#0d47a1',       // azul bem escuro
-          'blue-light': '#bbdefb',      // azul claro
-          'blue-light-md': '#64b5f6',   // azul médio claro
-          'blue-dark-md': '#1976d2'     // azul médio escuro
+          'blue-primary': '#1565c0',
+          'blue-dark': '#0d47a1',
+          'blue-light': '#bbdefb',
+          'blue-light-md': '#64b5f6',
+          'blue-dark-md': '#1976d2'
         },
       },
     },

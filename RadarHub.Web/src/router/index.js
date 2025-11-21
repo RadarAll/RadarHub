@@ -3,7 +3,6 @@ import Home from '../views/Home.vue'
 import Licitacao from '../views/Licitacao.vue'
 import Orgao from '../views/Orgao.vue'
 import Modalidade from '@/views/Modalidade.vue'
-import Vezero from '@/views/vezero.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,11 +26,6 @@ const router = createRouter({
       path: '/modalidades',
       name: 'modalidade',
       component: Modalidade
-    },
-    {
-      path: '/vezero',
-      name: 'v0',
-      component: Vezero
     },
   ],
 })
