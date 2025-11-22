@@ -76,6 +76,16 @@
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
+                                    <v-list-item v-if="selectedItem.cnpj" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-domain</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">CNPJ</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            {{ selectedItem.cnpj }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
                                     <v-list-item class="px-0">
                                         <template v-slot:prepend>
                                             <v-icon color="grey-darken-1">mdi-calendar-plus</v-icon>
@@ -132,6 +142,7 @@
 </template>
 
 <script setup>
+import { list } from 'postcss';
 import { ref,} from 'vue'
 
 const selectedItem = ref(null);
