@@ -1,5 +1,5 @@
 <template>
-        <v-navigation-drawer permanent :width="230" class="elevation-1">
+        <v-navigation-drawer permanent :width="200" class="elevation-1">
                 <div class="d-flex align-center justify-center w-full py-8">
                     <v-img :src="logo" :width="40" :height="40"/>
                 </div>

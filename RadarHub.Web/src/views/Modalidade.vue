@@ -1,30 +1,31 @@
 <template>
         <v-main class="bg-grey-lighten-4">
-            <v-container class="ma-2 mt-15 fluid">
-                <v-row class="mt-16"></v-row>
+            <v-container class="mt-15 fluid">
+                <v-row class="mt-16">
+                    <v-col cols="12" md="8" class="d-flex justify-space-between">
+                        <v-btn @click="carregarModalidadesModalidades" color="blue-primary">
+                            <v-icon class="mdi-spin">mdi-sync</v-icon>
+                            Carregar
+                        </v-btn>
+                        <v-btn @click="importarModalidades" color="green-primary">
+                            <v-icon>mdi-import</v-icon>
+                            Importar
+                        </v-btn>
+                    </v-col>
+                </v-row>
                 <v-row>
                     <v-col cols="12" md="8">
                         <v-card class="elevation-2 rounded-lg h-100">
-                            <v-card-title class="d-flex align center pa-4 bg-green-light">
-                                <span class="text-h6 font-weight-bold text-green-primary">Modalidades</span>
-                                <v-spacer></v-spacer>
-                                <v-btn @click="importarModalidades" color="green-primary">
-                                    <v-icon>mdi-import</v-icon>
-                                    Importar
-                                </v-btn>
-                            </v-card-title>
-                            <v-divider></v-divider>
-
                             <!-- Tabela -->
 
                             <v-data-table
                             :headers="headers"
                             :items="modalidades"
                             class="elevation-0"
-                            :items-per-page="5"
+                            :items-per-page="10"
                             density="comfortable"
-                            @click:row="selectItem">
-
+                            @click:row="selectItem"
+                            style="border-top: 4px solid var(--neutral-dark)">
                             <template v-slot:item.id="{ item }">
                                 <v-chip size="small" color="grey-lighten-1"> 
                                     #{{ item.id }}
@@ -154,7 +155,8 @@ const mensagem = ref({
 const modalidades = ref([]);
 const headers = [
   { title: 'ID', key: 'id' },
-  { title: 'Nome', key: 'nome' }
+  { title: 'Nome', key: 'nome' },
+  {title: 'Ações', key: 'acoes'}
 ];
 
 function selectItem(event, { item }) {
