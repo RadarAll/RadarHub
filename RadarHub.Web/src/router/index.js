@@ -4,6 +4,7 @@ import Licitacao from '../views/Licitacao.vue'
 import Orgao from '../views/Orgao.vue'
 import Modalidade from '@/views/Modalidade.vue'
 import Poder from '@/views/Poder.vue'
+import Municipio from '@/views/Municipio.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/poderes',
       name: 'poderes',
       component: Poder
+    },
+    {
+      path: '/municipios',
+      name: 'municipios',
+      component: Municipio
     }
   ],
 })
