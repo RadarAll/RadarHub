@@ -1,4 +1,6 @@
-﻿namespace RadarHub.Dominio.DTOs
+﻿using System.Text.Json.Serialization;
+
+namespace RadarHub.Dominio.DTOs
 {
     public class FiltrosDto
     {
@@ -17,6 +19,7 @@
         public List<TipoDto> Tipos { get; set; } = new();
         public List<TipoContratoDto> TiposContrato { get; set; } = new();
         public List<FonteOrcamentariaDto> FontesOrcamentarias { get; set; } = new();
+        [JsonPropertyName("tipos_margens_preferencia")]
         public List<TipoMargemPreferenciaDto> TiposMargensPreferencia { get; set; } = new();
     }
 

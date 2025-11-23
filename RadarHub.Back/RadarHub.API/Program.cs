@@ -26,6 +26,10 @@ using Microsoft.OpenApi.Models;
 using RSK.Agendador.Enums;
 using Quartz;
 using RSK.Agendador.Extensoes;
+using RadarHub.Dominio.Servicos.Analise;
+using RadarHub.Integracoes.Gemini.Analise;
+using RadarHub.Integracoes.Gemini;
+using RadarHub.Integracoes.Gemini.Configuracao;
 
 
 namespace RadarHub.API
@@ -37,6 +41,8 @@ namespace RadarHub.API
             var builder = WebApplication.CreateBuilder(args);
 
             var configuration = builder.Configuration;
+
+            builder.Services.Configure<GeminiSettings>(configuration.GetSection("Gemini"));
 
             // ======= DbContext =======
             builder.Services.AddDbContext<RadarHubDbContext>(options =>
@@ -81,7 +87,7 @@ namespace RadarHub.API
                 };
             });
 
-            // ======= Serviços de domínio =======
+            // ======= ServiÃ§os de domÃ­nio =======
             builder.Services.AddScoped<ModalidadeServico>();
             builder.Services.AddScoped<MunicipioServico>();
             builder.Services.AddScoped<OrgaoServico>();
@@ -95,6 +101,12 @@ namespace RadarHub.API
             builder.Services.AddScoped<LicitacaoServico>();
             builder.Services.AddScoped<SegmentoServico>();
             builder.Services.AddScoped<PlanoServico>();
+            builder.Services.AddScoped<SugestorSegmentosServico>();
+            builder.Services.AddScoped<NormalizadorTextoServico>();
+            builder.Services.AddScoped<AnalisadorSimilaridadeServico>();
+            builder.Services.AddScoped<AnalisadorTFIDFServico>();
+            builder.Services.AddScoped<ClassificadorSegmentosServico>();
+            builder.Services.AddScoped<ExtractorDeCategoriasProdutosServico>();
 
 
             // ======= Agendamentos ========
@@ -168,7 +180,7 @@ namespace RadarHub.API
                 horaInicio: new TimeOnly(2, 0)
             );
 
-            // ======= Repositórios de importação =======
+            // ======= Repositï¿½rios de importaï¿½ï¿½o =======
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<Modalidade>, RepositorioImportacaoTerceiro<Modalidade, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<Orgao>, RepositorioImportacaoTerceiro<Orgao, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioImportacaoTerceiro<Unidade>, RepositorioImportacaoTerceiro<Unidade, RadarHubDbContext>>();
@@ -194,23 +206,25 @@ namespace RadarHub.API
             builder.Services.AddScoped<IRepositorioBaseAssincrono<FonteOrcamentaria>, RepositorioBaseAssincrono<FonteOrcamentaria, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioBaseAssincrono<Licitacao>, RepositorioBaseAssincrono<Licitacao, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioBaseAssincrono<Segmento>, RepositorioBaseAssincrono<Segmento, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioBaseAssincrono<LicitacaoSegmento>, RepositorioBaseAssincrono<LicitacaoSegmento, RadarHubDbContext>>();
             builder.Services.AddScoped<IRepositorioBaseAssincrono<Plano>, RepositorioBaseAssincrono<Plano, RadarHubDbContext>>();
+            builder.Services.AddScoped<IRepositorioBaseAssincrono<SugestaoSegmento>, RepositorioSugestaoSegmento>();
 
-            // ======= Repositórios e serviços base =======
+            // ======= Repositï¿½rios e serviï¿½os base =======
             builder.Services.AddScoped(typeof(IRepositorioBaseAssincrono<>), typeof(RepositorioBaseRadarHub<>));
             builder.Services.AddScoped(typeof(IServicoConsultaBase<>), typeof(ServicoConsultaBase<>));
             builder.Services.AddScoped(typeof(IServicoCrudBase<>), typeof(ServicoCrudBase<>));
             builder.Services.AddScoped(typeof(IServicoImportacaoTerceiro<>), typeof(ServicoImportacaoTerceiro<>));
 
-            // ======= Notificações =======
+            // ======= Notificaï¿½ï¿½es =======
             builder.Services.AddScoped<IServicoUsuario, ServicoUsuario>();
             builder.Services.AddScoped<IServicoAutenticacao, ServicoAutenticacao>();
 
 
-            // ======= Transação =======
+            // ======= Transaï¿½ï¿½o =======
             builder.Services.AddScoped<ITransacao, TransacaoEF<RadarHubDbContext>>();
 
-            // ======= Autorização =======
+            // ======= Autorizaï¿½ï¿½o =======
             builder.Services.AddScoped<IHasher, Sha256Hasher>();
             builder.Services.AddScoped<IRepositorioAplicacaoPermitida, RepositorioAplicacaoPermitida<RadarHubDbContext>>();
             builder.Services.AddScoped<IServicoAplicacaoPermitidaPermissao, ServicoAplicacaoPermitidaPermissao>();
@@ -220,17 +234,20 @@ namespace RadarHub.API
             // Registra a classe concreta
             builder.Services.AddScoped<ServicoMensagem>();
 
-            // Ambas as interfaces usam a mesma instância
+            // Ambas as interfaces usam a mesma instï¿½ncia
             builder.Services.AddScoped<IServicoMensagem>(sp => sp.GetRequiredService<ServicoMensagem>());
             builder.Services.AddScoped<INotificador>(sp => sp.GetRequiredService<ServicoMensagem>());
 
 
-            // ======= Serviços RSK =======
+            builder.Services.AddHttpClient<IAnalisadorSemanticoExterno, GeminiAnalisadorServico>();
+
+
+            // ======= ServiÃ§os RSK =======
             builder.Services.AdicionarServicosRSK();
 
             // ======= Controllers =======
             builder.Services.AddControllers()
-            //.AddApplicationPart(typeof(RSK.API.Controllers.UsuarioController).Assembly)
+            .AddApplicationPart(typeof(RSK.API.Controllers.UsuarioController).Assembly)
             .AddJsonOptions(opt =>
             {
                 opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
@@ -246,7 +263,7 @@ namespace RadarHub.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                // Define o esquema de segurança Bearer
+                // Define o esquema de seguranï¿½a Bearer
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "Insira o token JWT no campo abaixo: 'Bearer {token}'",
@@ -282,7 +299,7 @@ namespace RadarHub.API
             //using (var scope = app.Services.CreateScope())
             //{
             //    var contexto = scope.ServiceProvider.GetRequiredService<RadarHubDbContext>();
-            //    Console.WriteLine($"Conexão: {contexto.Database.GetConnectionString()}");
+            //    Console.WriteLine($"Conexï¿½o: {contexto.Database.GetConnectionString()}");
 
             //    contexto.Add(new Modalidade { IdTerceiro = "teste", Nome = "TesteDireto" });
             //    var result = contexto.SaveChanges();
@@ -299,7 +316,7 @@ namespace RadarHub.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowAll");            // Habilita CORS
+            app.UseCors("AllowAll"); // Habilita CORS
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseODataRouteDebug();
@@ -312,9 +329,9 @@ namespace RadarHub.API
         {
             var builder = new ODataConventionModelBuilder();
 
-            // Configuração manual de cada EntitySet (conjunto de entidades) para OData,
-            // conforme solicitado. É crucial chamar .HasKey(e => e.Id) para
-            // garantir que o OData reconheça a chave primária herdada da EntidadeBase.
+            // Configuraï¿½ï¿½o manual de cada EntitySet (conjunto de entidades) para OData,
+            // conforme solicitado. ï¿½ crucial chamar .HasKey(e => e.Id) para
+            // garantir que o OData reconheï¿½a a chave primï¿½ria herdada da EntidadeBase.
 
             // Entidades de RadarHub.Dominio.Entidades
             builder.EntitySet<Modalidade>("Modalidade").EntityType.HasKey(e => e.Id);
@@ -333,8 +350,8 @@ namespace RadarHub.API
             // Entidades de RSK.Dominio.Autorizacao.Entidades
             builder.EntitySet<AplicacaoPermitida>("AplicacaoPermitida").EntityType.HasKey(e => e.Id);
 
-            // NOTE: A classe EntidadeBaseImportacaoTerceiro não é registrada pois é uma classe base
-            // e não deve ser um EntitySet consultável.
+            // NOTE: A classe EntidadeBaseImportacaoTerceiro nï¿½o ï¿½ registrada pois ï¿½ uma classe base
+            // e nï¿½o deve ser um EntitySet consultï¿½vel.
 
             return builder.GetEdmModel();
         }

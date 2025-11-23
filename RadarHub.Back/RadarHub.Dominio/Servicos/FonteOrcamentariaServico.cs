@@ -9,13 +9,13 @@ using RadarHub.Dominio.DTOs;
 
 namespace RadarHub.Dominio.Servicos
 {
-    public class FonteOrcamentariaServico : ServicoImportacaoTerceiro<Poder>
+    public class FonteOrcamentariaServico : ServicoImportacaoTerceiro<FonteOrcamentaria>
     {
         private readonly Pncp _pncp;
         private readonly ITransacao _transacao;
 
         public FonteOrcamentariaServico(
-            IRepositorioImportacaoTerceiro<Poder> repositorio,
+            IRepositorioImportacaoTerceiro<FonteOrcamentaria> repositorio,
             IServicoMensagem mensagens,
             ITransacao transacao)
             : base(repositorio, mensagens)
@@ -44,13 +44,13 @@ namespace RadarHub.Dominio.Servicos
                 int novas = 0;
                 int atualizadas = 0;
 
-                foreach (var item in filtros.Filters.Poderes)
+                foreach (var item in filtros.Filters.FontesOrcamentarias)
                 {
                     var existente = await ObterPorIdTerceiroAssincrono(item.Id);
 
                     if (existente == null)
                     {
-                        var nova = new Poder(item.Id, item.Nome);
+                        var nova = new FonteOrcamentaria(item.Id, item.Nome);
                         await _repositorio.AdicionarAssincrono(nova);
                         novas++;
                     }
@@ -75,7 +75,7 @@ namespace RadarHub.Dominio.Servicos
             {
                 // Rollback em caso de erro
                 await _transacao.RollbackAssincrono();
-                _mensagens.Adicionar($"Erro ao importar poderes: {ex.Message}", TipoMensagem.Erro);
+                _mensagens.Adicionar($"Erro ao importar fontes orçamentárias: {ex.Message}", TipoMensagem.Erro);
                 return false;
             }
         }

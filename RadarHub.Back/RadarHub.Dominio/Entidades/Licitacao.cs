@@ -5,9 +5,9 @@ namespace RadarHub.Dominio.Entidades
     public class Licitacao : EntidadeBaseImportacaoTerceiro
     {
         
-        public string Titulo { get; set; }
-        public string Descricao { get; set; }
-        public string ItemUrl { get; set; }
+    public string Titulo { get; set; }
+    public string? Descricao { get; set; }
+    public string? ItemUrl { get; set; }
         public decimal? ValorGlobal { get; set; }
         public bool TemResultado { get; set; }
 
