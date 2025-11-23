@@ -1,5 +1,5 @@
 <template>
-        <v-navigation-drawer permanent :width="230" class="elevation-1">
+        <v-navigation-drawer permanent :width="200" class="elevation-1">
                 <div class="d-flex align-center justify-center w-full py-8">
                     <v-img :src="logo" :width="40" :height="40"/>
                 </div>
@@ -76,7 +76,7 @@ const filtros = [
         {nome: 'Orgão', rota: '/orgaos'},
         {nome: 'Poder', rota: '/poderes'},
         {nome: 'Tipo', rota: '/tipos'},
-        {nome: 'Tipo Margem Preferência', rota: '/tipoMargemPreferencias'},
+        {nome: 'Tipo Margem Preferência', rota: '/tiposMargemPreferencia'},
         {nome: 'Uf', rota: '/ufs'},
         {nome: 'Unidade', rota: '/unidades'},
         {nome: 'Fonte Orçamentaria', rota: '/fontesOrcamentarias'}

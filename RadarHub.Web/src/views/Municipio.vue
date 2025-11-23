@@ -2,10 +2,10 @@
     <v-main class="bg-grey-lighten-4">
         <v-container class="mt-15 fluid">
             <PainelGenerico
-            :carregar="carregarOrgaos"
-            :importar="importarOrgaos"
+            :carregar="carregarMunicipios"
+            :importar="importarMunicipios"
             :headers="headers"
-            :items="orgaos"
+            :items="municipios"
             ></PainelGenerico>
 
             <Alert :visivel="mensagem.visivel" :tipo="mensagem.tipo" :texto="mensagem.texto" :loading="isLoading" ></Alert>
@@ -16,7 +16,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import OrgaoServico from '@/servicos/OrgaoController';
+import MunicipioServico from '@/servicos/MunicipioController';
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 
@@ -26,11 +26,11 @@ const mensagem = ref({
     tipo: 'info',
     texto: ''
 });
-const orgaos = ref([]);
+const municipios = ref([]);
 const headers = computed(() => {
-     if (!orgaos.value.length) return []
+     if (!municipios.value.length) return []
 
-     const keys = Object.keys(orgaos.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao')
+     const keys = Object.keys(municipios.value[0]).filter(key => key != 'id' && key!= 'criadoEm' && key != 'ultimaAlteracao')
 
     return [
         {
@@ -54,48 +54,48 @@ function exibirMensagem(texto, tipo = 'info', duracao = 3000) {
     }, duracao)
 }
 
-async function importarOrgaos() {
+async function importarMunicipios() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.importar();
+        const response = await MunicipioServico.importar();
 
         if (response.status >= 200 && response.status < 300) {
-            exibirMensagem("Orgãos importados com sucesso!", 'success');
-            await carregarOrgaos();
+            exibirMensagem("Municipios importados com sucesso!", 'success');
+            await carregarMunicipios();
         }
 
     } catch (error) {
-        console.error('Erro ao importar orgãos:', error);
-        exibirMensagem('Erro ao importar orgãos.', 'error', 3000);
+        console.error('Erro ao importar municipios:', error);
+        exibirMensagem('Erro ao importar municipios.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
-async function carregarOrgaos() {
+async function carregarMunicipios() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.obterTodos();
+        const response = await MunicipioServico.obterTodos();
 
         if (response.status >= 200 && response.status < 300) {
-            orgaos.value = response.data || [];
-            console.log('Orgãos carregados:', orgaos.value);
-            exibirMensagem('Orgãos importados com sucesso!', 'success', 3000)
+            municipios.value = response.data || [];
+            console.log('Municipios carregados:', municipios.value);
+            exibirMensagem('Municipios importados com sucesso!', 'success', 3000)
         }
         
 
     } catch (error) {
-        console.error('Erro ao carregar orgãos:', error);
-        exibirMensagem('Erro ao carregar orgãos.', 'error', 3000);
+        console.error('Erro ao carregar municipios:', error);
+        exibirMensagem('Erro ao carregar municipios.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
 onMounted (() => {
-    carregarOrgaos();
+    carregarMunicipios();
 })
 
 </script>

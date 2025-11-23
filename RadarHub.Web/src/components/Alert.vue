@@ -1,5 +1,5 @@
 <template>
-  <v-row class="d-flex justify-center pt-16">
+  <v-row class="d-flex justify-end pt-16 pb-5 footer-fixed">
 
     <!-- Sucesso -->
     <div v-if="visivel && tipo === 'success'" class="w-25">
@@ -35,3 +35,13 @@ defineProps({
 })
 
 </script>
+
+<style scoped>
+.footer-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+</style>

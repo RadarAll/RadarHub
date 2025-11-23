@@ -2,10 +2,10 @@
     <v-main class="bg-grey-lighten-4">
         <v-container class="mt-15 fluid">
             <PainelGenerico
-            :carregar="carregarOrgaos"
-            :importar="importarOrgaos"
+            :carregar="carregarPoderes"
+            :importar="importarPoderes"
             :headers="headers"
-            :items="orgaos"
+            :items="poderes"
             ></PainelGenerico>
 
             <Alert :visivel="mensagem.visivel" :tipo="mensagem.tipo" :texto="mensagem.texto" :loading="isLoading" ></Alert>
@@ -16,7 +16,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import OrgaoServico from '@/servicos/OrgaoController';
+import PoderServico from '@/servicos/PoderController';
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 
@@ -26,11 +26,11 @@ const mensagem = ref({
     tipo: 'info',
     texto: ''
 });
-const orgaos = ref([]);
+const poderes = ref([]);
 const headers = computed(() => {
-     if (!orgaos.value.length) return []
+     if (!poderes.value.length) return []
 
-     const keys = Object.keys(orgaos.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao')
+     const keys = Object.keys(poderes.value[0]).filter(key => key != 'id')
 
     return [
         {
@@ -54,48 +54,47 @@ function exibirMensagem(texto, tipo = 'info', duracao = 3000) {
     }, duracao)
 }
 
-async function importarOrgaos() {
+async function importarPoderes() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.importar();
+        const response = await PoderServico.importar();
 
-        if (response.status >= 200 && response.status < 300) {
-            exibirMensagem("Orgãos importados com sucesso!", 'success');
-            await carregarOrgaos();
+        if (response.status >= 200 && response.status < 3000) {
+            exibirMensagem("Poderes importados com sucesso!", 'success');
+            await carregarPoderes();
         }
 
     } catch (error) {
-        console.error('Erro ao importar orgãos:', error);
-        exibirMensagem('Erro ao importar orgãos.', 'error', 3000);
+        console.error('Erro ao improtar poderes:', error);
+        exibirMensagem('Erro ao importar poderes.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
-async function carregarOrgaos() {
+async function carregarPoderes() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.obterTodos();
+        const response = await PoderServico.obterTodos();
 
-        if (response.status >= 200 && response.status < 300) {
-            orgaos.value = response.data || [];
-            console.log('Orgãos carregados:', orgaos.value);
-            exibirMensagem('Orgãos importados com sucesso!', 'success', 3000)
+        if (response.status >= 200 && response.status < 3000) {
+            poderes.value = response.data || [];
+            console.log('Poderes carregados:', poderes.value);
         }
-        
+        exibirMensagem('Poderes importados com sucesso!', 'success', 3000)
 
     } catch (error) {
-        console.error('Erro ao carregar orgãos:', error);
-        exibirMensagem('Erro ao carregar orgãos.', 'error', 3000);
+        console.error('Erro ao carregar poderes:', error);
+        exibirMensagem('Erro ao carregar poderes.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
 onMounted (() => {
-    carregarOrgaos();
+    carregarPoderes();
 })
 
 </script>

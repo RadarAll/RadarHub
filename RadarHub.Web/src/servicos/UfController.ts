@@ -4,11 +4,11 @@ import http from "./http-comon";
 
 class UfController extends ConsultaServicoBase<Uf> {
     constructor() {
-        super("Uf")
+        super("Ufs")
     }
 
     public async importar() {
-        return http.post(`/uf/importar`);
+        return http.post(`/Ufs/importar`);
     }
 }
 

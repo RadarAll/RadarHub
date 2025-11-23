@@ -3,6 +3,11 @@ import Home from '../views/Home.vue'
 import Licitacao from '../views/Licitacao.vue'
 import Orgao from '../views/Orgao.vue'
 import Modalidade from '@/views/Modalidade.vue'
+import Poder from '@/views/Poder.vue'
+import Municipio from '@/views/Municipio.vue'
+import Tipo from '@/views/Tipo.vue'
+import TipoMargemPreferencia from '@/views/TipoMargemPreferencia.vue'
+import Uf from '@/views/Uf.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +32,31 @@ const router = createRouter({
       name: 'modalidade',
       component: Modalidade
     },
+    {
+      path: '/poderes',
+      name: 'poderes',
+      component: Poder
+    },
+    {
+      path: '/municipios',
+      name: 'municipios',
+      component: Municipio
+    },
+    {
+      path: '/tipos',
+      name: 'tipos',
+      component: Tipo
+    },
+    {
+      path: '/tiposMargemPreferencia',
+      name: 'tipoMargemPreferencia',
+      component: TipoMargemPreferencia
+    },
+    {
+      path: '/ufs',
+      name: 'ufs',
+      component: Uf
+    }
   ],
 })
 

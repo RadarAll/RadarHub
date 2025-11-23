@@ -2,21 +2,20 @@
     <v-main class="bg-grey-lighten-4">
         <v-container class="mt-15 fluid">
             <PainelGenerico
-            :carregar="carregarOrgaos"
-            :importar="importarOrgaos"
+            :carregar="carregarTipos"
+            :importar="importarTipos"
             :headers="headers"
-            :items="orgaos"
+            :items="tipos"
             ></PainelGenerico>
 
-            <Alert :visivel="mensagem.visivel" :tipo="mensagem.tipo" :texto="mensagem.texto" :loading="isLoading" ></Alert>
-
+            <Alert :loading="isLoading" :texto="mensagem.texto" :tipo="mensagem.tipo" :visivel="mensagem.visivel"></Alert>
         </v-container>
     </v-main>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import OrgaoServico from '@/servicos/OrgaoController';
+import { ref, onMounted, computed} from 'vue'
+import TipoServico from '@/servicos/TipoController';
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 
@@ -26,11 +25,12 @@ const mensagem = ref({
     tipo: 'info',
     texto: ''
 });
-const orgaos = ref([]);
-const headers = computed(() => {
-     if (!orgaos.value.length) return []
 
-     const keys = Object.keys(orgaos.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao')
+const tipos = ref([]);
+const headers = computed(() => {
+    if (!tipos.value.length) return []
+
+    const keys = Object.keys(tipos.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao')
 
     return [
         {
@@ -54,48 +54,45 @@ function exibirMensagem(texto, tipo = 'info', duracao = 3000) {
     }, duracao)
 }
 
-async function importarOrgaos() {
+async function importarTipos() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.importar();
-
+        const response = await TipoServico.importar();
         if (response.status >= 200 && response.status < 300) {
-            exibirMensagem("Orgãos importados com sucesso!", 'success');
-            await carregarOrgaos();
+            exibirMensagem('Tipos importados com sucesso!', 'success', 3000);
+            await carregarTipos();
         }
 
     } catch (error) {
-        console.error('Erro ao importar orgãos:', error);
-        exibirMensagem('Erro ao importar orgãos.', 'error', 3000);
+        console.error('Erro ao importar tipos:', error);
+        exibirMensagem('Erro ao importar tipos.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
-async function carregarOrgaos() {
+async function carregarTipos() {
     isLoading.value = true;
 
     try {
-        const response = await OrgaoServico.obterTodos();
+        const response = await TipoServico.obterTodos();
 
         if (response.status >= 200 && response.status < 300) {
-            orgaos.value = response.data || [];
-            console.log('Orgãos carregados:', orgaos.value);
-            exibirMensagem('Orgãos importados com sucesso!', 'success', 3000)
+            tipos.value = response.data || [];
+            console.log('Tipos carregados:', tipos.value);
+            exibirMensagem('Tipos carregados com sucesso!', 'info', 3000)
         }
-        
 
     } catch (error) {
-        console.error('Erro ao carregar orgãos:', error);
-        exibirMensagem('Erro ao carregar orgãos.', 'error', 3000);
+        console.error('Erro ao carregar tipos:', error);
+        exibirMensagem('Erro ao carregar tipos.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
-onMounted (() => {
-    carregarOrgaos();
+onMounted(() => {
+    carregarTipos();
 })
-
 </script>
