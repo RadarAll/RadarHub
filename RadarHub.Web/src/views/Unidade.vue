@@ -1,5 +1,6 @@
 <template>
     <v-main class="bg-grey-lighten-4">
+        <AppBar :titulo="titulo"></AppBar>
         <v-container class="mt-15 fluid">
             <PainelGenerico
             :carregar="carregarUnidades"
@@ -23,6 +24,7 @@ import { ref, onMounted, computed } from 'vue'
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 import UnidadeServico from '@/servicos/UnidadeController';
+import AppBar from '@/components/AppBar.vue';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -31,6 +33,7 @@ const mensagem = ref({
     texto: ''
 });
 
+const titulo = 'Unidades'
 const unidades = ref([]);
 const headers = computed(() => {
     if (!unidades.value.length) return []

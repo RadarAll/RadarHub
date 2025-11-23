@@ -1,5 +1,6 @@
 <template>
     <v-main class="bg-grey-lighten-4">
+        <AppBar :titulo="titulo"></AppBar>
         <v-container class="mt-15 fluid">
             <PainelGenerico
             :carregar="carregarPoderes"
@@ -19,6 +20,7 @@ import { ref, onMounted, computed } from 'vue'
 import PoderServico from '@/servicos/PoderController';
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
+import AppBar from '@/components/AppBar.vue';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -26,6 +28,8 @@ const mensagem = ref({
     tipo: 'info',
     texto: ''
 });
+
+const titulo = 'Poderes'
 const poderes = ref([]);
 const headers = computed(() => {
      if (!poderes.value.length) return []

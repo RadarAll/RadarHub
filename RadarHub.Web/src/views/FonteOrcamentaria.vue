@@ -1,5 +1,6 @@
 <template>
     <v-main class="bg-grey-lighten-4">
+        <AppBar :titulo="titulo"></AppBar>
         <v-container class="mt-15 fluid">
             <PainelGenerico
             :carregar="carregarFontesOrcamentarias"
@@ -23,6 +24,7 @@ import { ref, onMounted, computed } from 'vue'
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 import FonteOrcamentariaServico from '@/servicos/FonteOrcamentariaController';
+import AppBar from '@/components/AppBar.vue';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -31,6 +33,7 @@ const mensagem = ref({
     texto: ''
 });
 
+const titulo = "Fontes orçamentárias"
 const fontesOrcamentarias = ref([]);
 const headers = computed(() => {
     if (!fontesOrcamentarias.value.length) return []

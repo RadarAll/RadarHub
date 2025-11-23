@@ -9,7 +9,6 @@ const route = useRoute()
 <template>
   <v-app>
     <NavigationDrawer></NavigationDrawer>
-    <AppBar></AppBar>
     <main :class="route.path !== '/' && route.path !== '/login' ? 'ml-[70px]' : ''">
       <RouterView />
     </main>

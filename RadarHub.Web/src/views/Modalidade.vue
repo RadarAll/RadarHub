@@ -1,5 +1,6 @@
 <template>
         <v-main class="bg-grey-lighten-4">
+            <AppBar :titulo="titulo"></AppBar>
             <v-container class="mt-15 fluid">
                 <PainelGenerico
                 :carregar="carregarModalidades"
@@ -21,6 +22,7 @@ import { ref, onMounted } from 'vue'
 import ModalidadeServico from '@/servicos/ModalidadeController'
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
+import AppBar from '@/components/AppBar.vue';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -28,6 +30,8 @@ const mensagem = ref({
     tipo: 'info',
     texto: ''
 });
+
+const titulo = 'Modalidades'
 const modalidades = ref([]);
 const headers = [
   { title: 'ID', key: 'id' },
