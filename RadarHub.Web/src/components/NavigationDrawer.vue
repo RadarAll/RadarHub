@@ -76,7 +76,7 @@ const filtros = [
         {nome: 'Orgão', rota: '/orgaos'},
         {nome: 'Poder', rota: '/poderes'},
         {nome: 'Tipo', rota: '/tipos'},
-        {nome: 'Tipo Margem Preferência', rota: '/tipoMargemPreferencias'},
+        {nome: 'Tipo Margem Preferência', rota: '/tiposMargemPreferencia'},
         {nome: 'Uf', rota: '/ufs'},
         {nome: 'Unidade', rota: '/unidades'},
         {nome: 'Fonte Orçamentaria', rota: '/fontesOrcamentarias'}

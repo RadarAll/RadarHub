@@ -6,6 +6,7 @@ import Modalidade from '@/views/Modalidade.vue'
 import Poder from '@/views/Poder.vue'
 import Municipio from '@/views/Municipio.vue'
 import Tipo from '@/views/Tipo.vue'
+import TipoMargemPreferencia from '@/views/TipoMargemPreferencia.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/tipos',
       name: 'tipos',
       component: Tipo
+    },
+    {
+      path: '/tiposMargemPreferencia',
+      name: 'tipoMargemPreferencia',
+      component: TipoMargemPreferencia
     }
   ],
 })
