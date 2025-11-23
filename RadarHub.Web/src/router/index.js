@@ -8,6 +8,7 @@ import Municipio from '@/views/Municipio.vue'
 import Tipo from '@/views/Tipo.vue'
 import TipoMargemPreferencia from '@/views/TipoMargemPreferencia.vue'
 import Uf from '@/views/Uf.vue'
+import Unidade from '@/views/Unidade.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/ufs',
       name: 'ufs',
       component: Uf
+    },
+    {
+      path: '/unidades',
+      name: 'unidades',
+      component: Unidade
     }
   ],
 })
