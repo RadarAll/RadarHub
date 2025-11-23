@@ -9,6 +9,7 @@ import Tipo from '@/views/Tipo.vue'
 import TipoMargemPreferencia from '@/views/TipoMargemPreferencia.vue'
 import Uf from '@/views/Uf.vue'
 import Unidade from '@/views/Unidade.vue'
+import FonteOrcamentaria from '@/views/FonteOrcamentaria.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -62,6 +63,11 @@ const router = createRouter({
       path: '/unidades',
       name: 'unidades',
       component: Unidade
+    },
+    {
+      path: '/fontesOrcamentarias',
+      name: 'fontesOrcamentarias',
+      component: FonteOrcamentaria
     }
   ],
 })
