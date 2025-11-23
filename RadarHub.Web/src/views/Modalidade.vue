@@ -76,10 +76,10 @@ async function carregarModalidades() {
 
         if (response.status >= 200 && response.status < 300) {
             modalidades.value = response.data || [];
-             console.log("Modalidades carregadas:", modalidades.value);
-
+            console.log("Modalidades carregadas:", modalidades.value);
+            exibirMensagem('Modalidades carregadas com sucesso!', 'success', 3000)
         }
-        exibirMensagem('Modalidades importadas com sucesso!', 'success', 3000)
+        
 
     } catch (error) {
         console.error('Erro ao carregar modalidades:', error);

@@ -86,7 +86,7 @@ async function carregarOrgaos() {
         if (response.status >= 200 && response.status < 300) {
             orgaos.value = response.data || [];
             console.log('Orgãos carregados:', orgaos.value);
-            exibirMensagem('Orgãos importados com sucesso!', 'success', 3000)
+            exibirMensagem('Orgãos carregados com sucesso!', 'success', 3000)
         }
         
 

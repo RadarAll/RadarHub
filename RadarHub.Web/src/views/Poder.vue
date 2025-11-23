@@ -86,8 +86,9 @@ async function carregarPoderes() {
         if (response.status >= 200 && response.status < 3000) {
             poderes.value = response.data || [];
             console.log('Poderes carregados:', poderes.value);
+            exibirMensagem('Poderes carregados com sucesso!', 'success', 3000)
         }
-        exibirMensagem('Poderes importados com sucesso!', 'success', 3000)
+        
 
     } catch (error) {
         console.error('Erro ao carregar poderes:', error);

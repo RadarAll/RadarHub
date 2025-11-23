@@ -86,7 +86,7 @@ async function carregarMunicipios() {
         if (response.status >= 200 && response.status < 300) {
             municipios.value = response.data || [];
             console.log('Municipios carregados:', municipios.value);
-            exibirMensagem('Municipios importados com sucesso!', 'success', 3000)
+            exibirMensagem('Municipios carregados com sucesso!', 'success', 3000)
         }
         
 
