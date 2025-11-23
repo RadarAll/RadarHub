@@ -4,11 +4,11 @@ import http from "./http-comon";
 
 class TipoMargemPreferenciaController extends ConsultaServicoBase<TipoMargemPreferencia> {
     constructor() {
-        super("TipoMargePreferencia")
+        super("TipoMargemPreferencia")
     }
 
     public async importar() {
-        return http.post(`/tipomargempreferencia/importar`);
+        return http.post(`/TipoMargemPreferencia/importar`);
     }
 }
 
