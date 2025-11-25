@@ -15,10 +15,10 @@
                                         </div>
                                 </v-list-item>
 
-                                <v-list-item class="mb-1 pl-8" to="/eventos">
+                                <v-list-item class="mb-1 pl-8" to="/planos">
                                                 <div class="d-flex flex-row align-center ga-3">
-                                                        <v-icon color="green-primary">mdi-calendar-blank-outline</v-icon>
-                                                        <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Eventos</span>
+                                                        <v-icon color="green-primary">mdi-star-box-multiple</v-icon>
+                                                        <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Planos</span>
                                                 </div>
                                 </v-list-item>
 
@@ -36,10 +36,10 @@
                                         </div>
                                 </v-list-item>
 
-                                <v-list-item class="mb-1 pl-8" to="/historico">
+                                <v-list-item class="mb-1 pl-8" to="/segmentos">
                                         <div class="d-flex flex-row align-center ga-3">
-                                                <v-icon color="green-primary">mdi-history</v-icon>
-                                                <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Histórico</span>
+                                                <v-icon color="green-primary">mdi-tag-outline</v-icon>
+                                                <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Segmentos</span>
                                         </div>
                                 </v-list-item>
 

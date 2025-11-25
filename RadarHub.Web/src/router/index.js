@@ -10,6 +10,7 @@ import TipoMargemPreferencia from '@/views/TipoMargemPreferencia.vue'
 import Uf from '@/views/Uf.vue'
 import Unidade from '@/views/Unidade.vue'
 import FonteOrcamentaria from '@/views/FonteOrcamentaria.vue'
+import Perfil from '@/views/Perfil.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,7 +18,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Perfil
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: Perfil
     },
     {
       path: '/licitacoes',

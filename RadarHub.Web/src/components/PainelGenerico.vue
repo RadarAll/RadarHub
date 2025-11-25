@@ -142,7 +142,6 @@
 </template>
 
 <script setup>
-import { list } from 'postcss';
 import { ref,} from 'vue'
 
 const selectedItem = ref(null);

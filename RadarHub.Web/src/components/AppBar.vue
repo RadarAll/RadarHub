@@ -10,7 +10,7 @@
       <v-icon>mdi-bell</v-icon>
     </v-btn>
 
-    <v-btn icon color="green-primary">
+    <v-btn to="/perfil" icon color="green-primary">
       <v-icon>mdi-account-circle</v-icon>
     </v-btn>
   </v-app-bar>
