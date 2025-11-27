@@ -11,6 +11,7 @@ import Uf from '@/views/Uf.vue'
 import Unidade from '@/views/Unidade.vue'
 import FonteOrcamentaria from '@/views/FonteOrcamentaria.vue'
 import Perfil from '@/views/Perfil.vue'
+import Usuario from '@/views/Usuario.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/perfil',
       name: 'perfil',
       component: Perfil
+    },
+    {
+      path: '/usuarios',
+      name: 'usuario',
+      component: Usuario
     },
     {
       path: '/licitacoes',

@@ -1,7 +1,7 @@
 <template>
     <v-main class="bg-grey-lighten-4">
         <AppBar :titulo="titulo"></AppBar>
-        <v-container class="mt-15 fluid">
+        <v-container class="fluid">
             <PainelGenerico
             :carregar="carregarFontesOrcamentarias"
             :importar="importarFontesOrcamentarias"
