@@ -12,10 +12,16 @@ import Unidade from '@/views/Unidade.vue'
 import FonteOrcamentaria from '@/views/FonteOrcamentaria.vue'
 import Perfil from '@/views/Perfil.vue'
 import Usuario from '@/views/Usuario.vue'
+import Login from '@/views/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
     {
       path: '/',
       name: 'home',
