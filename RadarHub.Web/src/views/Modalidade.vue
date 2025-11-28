@@ -1,7 +1,7 @@
 <template>
         <v-main class="bg-grey-lighten-4">
             <AppBar :titulo="titulo"></AppBar>
-            <v-container class="fluid">
+            <v-container fluid>
                 <PainelGenerico
                 :carregar="carregarModalidades"
                 :importar="importarModalidades"
@@ -83,7 +83,7 @@ async function carregarModalidades() {
 
     } catch (error) {
         console.error('Erro ao carregar modalidades:', error);
-        exibirMensagem('Erro ao carregar modalidades: ', 'error', 3000);
+        exibirMensagem('Erro ao carregar modalidades.', 'error', 3000);
     } finally {
         isLoading.value = false;
     }

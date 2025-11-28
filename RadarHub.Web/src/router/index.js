@@ -13,6 +13,8 @@ import FonteOrcamentaria from '@/views/FonteOrcamentaria.vue'
 import Perfil from '@/views/Perfil.vue'
 import Usuario from '@/views/Usuario.vue'
 import Login from '@/views/Login.vue'
+import SugestaoSegmento from '@/views/SugestaoSegmento.vue'
+import Segmento from '@/views/Segmento.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -25,7 +27,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Perfil
+      component: Login
     },
     {
       path: '/perfil',
@@ -86,6 +88,16 @@ const router = createRouter({
       path: '/fontesOrcamentarias',
       name: 'fontesOrcamentarias',
       component: FonteOrcamentaria
+    },
+    {
+      path: '/sugestoes',
+      name: 'sugestoes',
+      component: SugestaoSegmento
+    },
+    {
+      path: '/segmentos',
+      name: 'segmentos',
+      component: Segmento
     }
   ],
 })
