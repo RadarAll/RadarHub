@@ -15,7 +15,7 @@
 
             <v-text-field v-model="email" prepend-inner-icon="mdi-account" label="Email" variant="outlined" density="comfortable" class="mb-4"/>
 
-            <v-text-field v-model="senha" prepend-inner-icon="mdi-lock" label="Senha" type="senha" variant="outlined" density="comfortable" class="mb-4"/>
+            <v-text-field v-model="senha" prepend-inner-icon="mdi-lock" label="Password" type="senha" variant="outlined" density="comfortable" class="mb-4"/>
 
             <v-btn @click="login" color="green-light-md" class="text-neutral-light" block>
               <v-icon start>mdi-login</v-icon>
