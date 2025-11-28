@@ -6,11 +6,11 @@
                 <v-col cols="7">
                     <v-card class="d-flex flex-column justify-center elevation-2 rounded-lg h-100 d-flex flex-column align-center pa-6  border-top-green-primary" style="border-top: 4px solid var(--green-light)">
                         <v-avatar size="150" class="mb-4">
-                            <v-img src="https://randomuser.me/api/portraits/women/45.jpg"/>
+                            <v-img :src="User" />
                         </v-avatar>
-                        <div class="text-h6 font-weight-bold text-green-primary">{{ usuario.nome }}</div>
-                        <div class="text-body-2 text-grey-darken-1">{{ usuario.cargo }}</div>
-                        <div class="text-caption text-grey-darken-1 mt-2">{{ usuario.empresa }}</div>
+                        <div class="text-h6 font-weight-bold text-green-primary">{{ usuarioLogado.nomeCompleto }}</div>
+                        <div class="text-body-2 text-grey-darken-1">{{cargo }}</div>
+                        <div class="text-caption text-grey-darken-1 mt-2">{{ empresa }}</div>
                     </v-card>
                 </v-col>
 
@@ -30,7 +30,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">Nome completo</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.nome }}
+                                    {{ usuarioLogado.nomeCompleto }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                                 <v-divider />
@@ -41,7 +41,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">Email</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.email }}
+                                    {{ usuarioLogado.email }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                                 <v-divider />
@@ -63,7 +63,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">Sobre você</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.bio }}
+                                    {{ bio }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                                 <v-divider />
@@ -74,7 +74,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">País</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.pais }}
+                                    {{ pais }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                                 <v-divider />
@@ -85,7 +85,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">Cargo</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.cargo }}
+                                    {{ cargo }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                                 <v-divider />
@@ -96,7 +96,7 @@
                                     </template>
                                     <v-list-item-title class="text-caption text-grey-darken-1">Empresa</v-list-item-title>
                                     <v-list-item-subtitle class="text-body-2 font-weight-medium">
-                                    {{ usuario.empresa }}
+                                    {{ empresa }}
                                     </v-list-item-subtitle>
                                 </v-list-item>
                             </v-list>
@@ -109,26 +109,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import AppBar from '@/components/AppBar.vue'
+import User from '@/assets/user.png'
+import axios from 'axios'
 
 const titulo = 'Meu perfil'
 const mostrarSenha = ref(false)
+const bio = 'Faço parte da equipe da RadarAll, o seu sistema de licitações'
+const pais = 'Brasil'
+const cargo = 'SuperUser'
+const empresa = 'RadarAll'
+const usuarioLogado = ref({})
+const emailUsuario = localStorage.getItem('emailUsuario')
 
-const usuario = ref({
-  nome: 'Rayssa',
-  email: 'radargov@gmail.com',
-  senha: '',
-  bio: 'Faço parte da equipe da RadarAll, o seu sistema de licitações',
-  pais: 'Brasil',
-  cargo: 'Super User',
-  empresa: 'RadarAll'
-})
+async function getPerfil() {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`https://localhost:7203/api/Usuario/email/${encodeURIComponent(emailUsuario)}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
 
-const paises = ['Brasil', 'Estados Unidos', 'Canadá', 'Alemanha', 'Japão']
+        usuarioLogado.value = response.data.dados
 
-function salvar() {
-  console.log('Perfil salvo:', usuario.value)
+    } catch (error) {
+        console.log('Não foi possível buscar os dados do Perfil:', error);
+    }
 }
+
+onMounted(() => {
+    getPerfil() 
+})
 
 </script>

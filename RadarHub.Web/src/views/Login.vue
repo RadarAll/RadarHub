@@ -46,7 +46,7 @@ const login = async () => {
         const token = response.data.token
 
         localStorage.setItem('token', token)
-        localStorage.setItem('emailUsuario', email)
+        localStorage.setItem('emailUsuario', email.value)
         window.location.href = '/home'
     } catch (error) {
         console.log('Erro no Login:', error);
