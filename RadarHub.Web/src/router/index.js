@@ -27,79 +27,104 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Login
+      component: Perfil,
+      meta: { requireAuth: true }
     },
     {
       path: '/perfil',
       name: 'perfil',
-      component: Perfil
+      component: Perfil,
+      meta: { requireAuth: true }
     },
     {
       path: '/usuarios',
       name: 'usuario',
-      component: Usuario
+      component: Usuario,
+      meta: { requireAuth: true }
     },
     {
       path: '/licitacoes',
       name: 'licitacoes',
-      component: Licitacao
+      component: Licitacao,
+      meta: { requireAuth: true }
     },
     {
       path: '/orgaos',
       name: 'orgaos',
-      component: Orgao
+      component: Orgao,
+      meta: { requireAuth: true }
     },
     {
       path: '/modalidades',
       name: 'modalidade',
-      component: Modalidade
+      component: Modalidade,
+      meta: { requireAuth: true }
     },
     {
       path: '/poderes',
       name: 'poderes',
-      component: Poder
+      component: Poder,
+      meta: { requireAuth: true }
     },
     {
       path: '/municipios',
       name: 'municipios',
-      component: Municipio
+      component: Municipio,
+      meta: { requireAuth: true }
     },
     {
       path: '/tipos',
       name: 'tipos',
-      component: Tipo
+      component: Tipo,
+      meta: { requireAuth: true }
     },
     {
       path: '/tiposMargemPreferencia',
       name: 'tipoMargemPreferencia',
-      component: TipoMargemPreferencia
+      component: TipoMargemPreferencia,
+      meta: { requireAuth: true }
     },
     {
       path: '/ufs',
       name: 'ufs',
-      component: Uf
+      component: Uf,
+      meta: { requireAuth: true }
     },
     {
       path: '/unidades',
       name: 'unidades',
-      component: Unidade
+      component: Unidade,
+      meta: { requireAuth: true }
     },
     {
       path: '/fontesOrcamentarias',
       name: 'fontesOrcamentarias',
-      component: FonteOrcamentaria
+      component: FonteOrcamentaria,
+      meta: { requireAuth: true }
     },
     {
       path: '/sugestoes',
       name: 'sugestoes',
-      component: SugestaoSegmento
+      component: SugestaoSegmento,
+      meta: { requireAuth: true }
     },
     {
       path: '/segmentos',
       name: 'segmentos',
-      component: Segmento
+      component: Segmento,
+      meta: { requireAuth: true }
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const logado = !!localStorage.getItem('token')
+
+  if (to.meta.requireAuth && !logado) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
