@@ -36,10 +36,10 @@
                                         </div>
                                 </v-list-item>
                                 
-                                <v-list-item class="mb-1 pl-8" to="/recomendacoes">
+                                <v-list-item class="mb-1 pl-8" to="/sugestoes">
                                         <div class="d-flex flex-row align-center ga-3">
                                                 <v-icon color="green-primary">mdi-lightbulb</v-icon>
-                                                <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Recomendações</span>
+                                                <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Sugestões</span>
                                         </div>
                                 </v-list-item>
 
@@ -64,7 +64,7 @@
                         </v-list>
                         <v-divider class="mb-2 mt-auto"></v-divider>
                         <div class="d-flex justify-center pb-2">
-                                <v-btn color="green-dark-md" class="text-none" variant="tonal">
+                                <v-btn @click="logout" color="green-dark-md" class="text-none" variant="tonal">
                                         <v-icon start>mdi-logout</v-icon>
                                         Sair
                                 </v-btn>
@@ -88,4 +88,9 @@ const filtros = [
         {nome: 'Unidade', rota: '/unidades'},
         {nome: 'Fonte Orçamentaria', rota: '/fontesOrcamentarias'}
 ]
+
+const logout = () => {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+}
 </script>

@@ -10,7 +10,8 @@
 
     <!-- Loading -->
     <div v-if="loading" class="w-25">
-      <v-alert type="loading" border="start" variant="tonal" class="d-flex rounded-md elevation-2 justify-center font-weight-bold text-green-primary bg-green-light">
+      <v-alert border="start" variant="tonal" class="d-flex rounded-md elevation-2 justify-center font-weight-bold text-green-primary bg-green-light">
+        <v-icon class="mdi-spin mr-3" size="large">mdi-sync</v-icon>
         Aguardando importação...
       </v-alert>
     </div>

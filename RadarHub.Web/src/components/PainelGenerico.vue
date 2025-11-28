@@ -1,8 +1,8 @@
 <template>
                 <v-row class="mt-16">
                     <v-col cols="12" md="8" class="d-flex justify-space-between">
-                        <v-btn @click="carregar" color="blue-primary">
-                            <v-icon class="mdi-spin">mdi-sync</v-icon>
+                        <v-btn @click="carregar" color="green-light-md" class="text-neutral-light">
+                            <v-icon>mdi-sync</v-icon>
                             Carregar
                         </v-btn>
                         <v-btn v-if="importar" @click="importar" color="green-primary">
@@ -17,6 +17,7 @@
                             <!-- Tabela -->
 
                             <v-data-table
+                            v-if="items.length > 0"
                             :headers="headers"
                             :items="items"
                             class="elevation-0"
@@ -43,6 +44,17 @@
                             </template>
                             </v-data-table>
 
+                            <v-data-table v-else
+                            class="elevation-0 pa-8"
+                            >
+                                <v-card-text class="d-flex flex-column justify-center align-center pa-16 text-center text-grey-darken-1">
+                                <v-icon size="70" color="grey-lighten-2" class="mb-4">mdi-database-off</v-icon>
+                                <div class="text-body-2">
+                                    Não há registro no banco de dados.
+                                </div>
+                            </v-card-text>
+                            </v-data-table>
+
                         </v-card>
                     </v-col>
 
@@ -55,7 +67,7 @@
                             </v-card-title>
                             <v-divider></v-divider>
 
-                            <v-card-text class="d-block text-start pa-4">
+                            <v-card-text class="d-block text-start pa-4 py-2">
 
                                 <div v-if="selectedItem.nomeCompleto" class="mb-4">
                                     <v-chip color="green-primary" label class="mb-3">
