@@ -60,7 +60,7 @@
 
                     <v-col cols="4">
                         <!-- Coluna para detalhes -->
-                         <v-card v-if="selectedItem" class="elevation-2 rounded-lg h-100"  style="border-top: 4px solid var(--neutral-dark);">
+                         <v-card v-if="selectedItem" class="elevation-2 rounded-lg"  style="border-top: 4px solid var(--neutral-dark);">
                             <v-card-title class="bg-green-light pa-4 w-100">
                                 <v-icon color="green-dark-md" class="mr-2">mdi-information-outline</v-icon>
                                 <span class="text-h6 text-green-primary font-weight-bold">Detalhes</span>
