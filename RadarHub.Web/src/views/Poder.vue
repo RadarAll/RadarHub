@@ -1,7 +1,7 @@
 <template>
     <v-main class="bg-grey-lighten-4">
         <AppBar :titulo="titulo"></AppBar>
-        <v-container class="fluid">
+        <v-container fluid>
             <PainelGenerico
             :carregar="carregarPoderes"
             :importar="importarPoderes"
@@ -64,7 +64,7 @@ async function importarPoderes() {
     try {
         const response = await PoderServico.importar();
 
-        if (response.status >= 200 && response.status < 3000) {
+        if (response.status >= 200 && response.status < 300) {
             exibirMensagem("Poderes importados com sucesso!", 'success');
             await carregarPoderes();
         }
@@ -83,7 +83,7 @@ async function carregarPoderes() {
     try {
         const response = await PoderServico.obterTodos();
 
-        if (response.status >= 200 && response.status < 3000) {
+        if (response.status >= 200 && response.status < 300) {
             poderes.value = response.data || [];
             console.log('Poderes carregados:', poderes.value);
             exibirMensagem('Poderes carregados com sucesso!', 'success', 3000)

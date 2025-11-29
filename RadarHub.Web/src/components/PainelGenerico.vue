@@ -1,11 +1,11 @@
 <template>
                 <v-row class="mt-16">
                     <v-col cols="12" md="8" class="d-flex justify-space-between">
-                        <v-btn @click="carregar" color="blue-primary">
-                            <v-icon class="mdi-spin">mdi-sync</v-icon>
+                        <v-btn @click="carregar" color="green-light-md" class="text-neutral-light">
+                            <v-icon>mdi-sync</v-icon>
                             Carregar
                         </v-btn>
-                        <v-btn @click="importar" color="green-primary">
+                        <v-btn v-if="importar" @click="importar" color="green-primary">
                             <v-icon>mdi-import</v-icon>
                             Importar
                         </v-btn>
@@ -17,6 +17,7 @@
                             <!-- Tabela -->
 
                             <v-data-table
+                            v-if="items.length > 0"
                             :headers="headers"
                             :items="items"
                             class="elevation-0"
@@ -30,9 +31,28 @@
                                 </v-chip>
                             </template>
 
-                            <template v-for="header in headers.filter(h => h.key != 'id')" v-slot:[`item.${header.key}`]="{ item }" :key="header.key">
+                            <template v-slot:item.ativo="{ item }">
+                                <v-chip :color="item.ativo ? 'green-primary' : 'red-primary'"> 
+                                    <v-icon>
+                                        {{ item.ativo ? 'mdi-check-bold' : 'mdi-close-thick' }}
+                                    </v-icon>
+                                </v-chip>
+                            </template>
+
+                            <template v-for="header in headers.filter(h => h.key != 'id' && h.key != 'ativo')" v-slot:[`item.${header.key}`]="{ item }" :key="header.key">
                                 <div v-if="header.key != 'id'" class="font-weight-medium text-body-1">{{ item[header.key] }}</div>
                             </template>
+                            </v-data-table>
+
+                            <v-data-table v-else
+                            class="elevation-0 pa-8"
+                            >
+                                <v-card-text class="d-flex flex-column justify-center align-center pa-16 text-center text-grey-darken-1">
+                                <v-icon size="70" color="grey-lighten-2" class="mb-4">mdi-database-off</v-icon>
+                                <div class="text-body-2">
+                                    Não há registro no banco de dados.
+                                </div>
+                            </v-card-text>
                             </v-data-table>
 
                         </v-card>
@@ -40,20 +60,29 @@
 
                     <v-col cols="4">
                         <!-- Coluna para detalhes -->
-                         <v-card v-if="selectedItem" class="elevation-2 rounded-lg h-100"  style="border-top: 4px solid var(--neutral-dark);">
+                         <v-card v-if="selectedItem" class="elevation-2 rounded-lg"  style="border-top: 4px solid var(--neutral-dark);">
                             <v-card-title class="bg-green-light pa-4 w-100">
                                 <v-icon color="green-dark-md" class="mr-2">mdi-information-outline</v-icon>
                                 <span class="text-h6 text-green-primary font-weight-bold">Detalhes</span>
                             </v-card-title>
                             <v-divider></v-divider>
 
-                            <v-card-text class="d-block text-start pa-4">
-                                <div class="mb-4">
+                            <v-card-text class="d-block text-start pa-4 py-2">
+
+                                <div v-if="selectedItem.nomeCompleto" class="mb-4">
+                                    <v-chip color="green-primary" label class="mb-3">
+                                        <v-icon start>mdi-account</v-icon>
+                                        {{ selectedItem.nomeCompleto }}
+                                    </v-chip>
+                                </div>
+
+                                <div v-if="selectItem.nome" class="mb-4">
                                     <v-chip color="green-primary" label class="mb-3">
                                         <v-icon start>mdi-gavel</v-icon>
                                         {{ selectedItem.nome }}
                                     </v-chip>
                                 </div>
+                                
 
                                 <v-list density="compact" class="">
                                     <v-list-item class="px-0">
@@ -66,13 +95,43 @@
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
-                                    <v-list-item class="px-0">
+                                    <v-list-item v-if="selectedItem.nome" class="px-0">
                                         <template v-slot:prepend>
                                             <v-icon color="grey-darken-1">mdi-information-box-outline</v-icon>
                                         </template>
                                         <v-list-item-title class="text-caption text-grey-darken-1">Nome</v-list-item-title>
                                         <v-list-item-subtitle class="text-body-2 font-weight-medium">
                                                 {{ selectedItem.nome }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.nomeCompleto" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-information-box-outline</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Nome</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                                {{ selectedItem.nomeCompleto }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.email" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-email</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Nome</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                                {{ selectedItem.email }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.senhaHash" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-lock</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Senha Hash</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                                {{ selectedItem.senhaHash }}
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
@@ -107,7 +166,7 @@
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
-                                    <v-list-item class="px-0">
+                                    <v-list-item v-if="selectedItem.idTerceiro" class="px-0">
                                         <template v-slot:prepend>
                                             <v-icon color="grey-darken-1">mdi-account-key-outline</v-icon>
                                         </template>
@@ -115,7 +174,16 @@
                                         <v-list-item-subtitle class="text-body-2 font-weight-medium">
                                             {{ selectedItem.idTerceiro }}
                                         </v-list-item-subtitle>
-                                        
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.dataDesativacao " class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-timer-off</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Data desativação</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            {{ selectedItem.dataDesativacao }}
+                                        </v-list-item-subtitle>
                                     </v-list-item>
 
                                 </v-list>
@@ -132,7 +200,7 @@
                             <v-card-text class="d-flex flex-column justify-center align-center pa-8 text-center text-grey-darken-1">
                                 <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-cursor-default-click</v-icon>
                                 <div class="text-body-2">
-                                    Selecione uma modalidade para ver os detalhes
+                                    Selecione um registro para ver os detalhes
                                 </div>
                             </v-card-text>
                          </v-card>
@@ -147,10 +215,22 @@ import { ref,} from 'vue'
 const selectedItem = ref(null);
 
 defineProps({
-    carregar: Function,
-    importar: Function,
-    headers: Array,
-    items: Array,
+    carregar: {
+        type: Function,
+        required: true
+    },
+    importar: {
+        type: Function,
+        required: false
+    },
+    headers: {
+        type: Array,
+        required: true
+    },
+    items: {
+        type: Array,
+        required: true
+    }
 })
 
 function selectItem(event, { item }) {

@@ -3,10 +3,9 @@
         <AppBar :titulo="titulo"></AppBar>
         <v-container fluid>
             <PainelGenerico
-            :carregar="carregarUnidades"
-            :importar="importarUnidades"
+            :carregar="carregarUsuarios"
             :headers="headers"
-            :items="unidades"
+            :items="usuarios"
             />
 
             <Alert
@@ -23,8 +22,9 @@
 import { ref, onMounted, computed } from 'vue'
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
-import UnidadeServico from '@/servicos/UnidadeController';
+import UsuarioServico from '@/servicos/UsuarioController';
 import AppBar from '@/components/AppBar.vue';
+import axios from 'axios';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -33,12 +33,12 @@ const mensagem = ref({
     texto: ''
 });
 
-const titulo = 'Unidades'
-const unidades = ref([]);
+const titulo = 'Usuarios'
+const usuarios = ref([]);
 const headers = computed(() => {
-    if (!unidades.value.length) return []
+    if (!usuarios.value.length) return []
 
-    const keys = Object.keys(unidades.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao')
+    const keys = Object.keys(usuarios.value[0]).filter(key => key != 'id' && key != 'criadoEm' && key != 'ultimaAlteracao' && key!= 'senhaHash' && key !='dataDesativacao')
 
     return [
         {
@@ -62,44 +62,26 @@ function exibirMensagem(texto, tipo = 'info', duracao = 3000) {
     }, duracao)
 }
 
-async function importarUnidades() {
+async function carregarUsuarios() {
     isLoading.value = true;
 
     try {
-        const response = await UnidadeServico.importar()
-
-        if (response.status >= 200 && response.status < 300) {
-            exibirMensagem("Unidades importadas com sucesso!", 'success');
-            await carregarUfs();
-        }
-    } catch (error) {
-        console.error("Erro ao importar Unidades:", error);
-        exibirMensagem("Erro ao importar Unidades.", 'error', 3000);
-    } finally {
-        isLoading.value = false;
-    }
-}
-
-async function carregarUnidades() {
-    isLoading.value = true;
-
-    try {
-        const response = await UnidadeServico.obterTodos();
+        const response = await UsuarioServico.obterTodos();
 
         if (response.status >= 200 && response.status < 300 ) {
-            unidades.value = response.data || [];
-            console.log("Unidades carregadas com sucesso:", unidades.value);
-            exibirMensagem("Unidades carregadas com sucesso!", 'success', 3000);
+            usuarios.value = response.data || [];
+            console.log("Usuarios carregadas com sucesso:", usuarios.value);
+            exibirMensagem("Usuarios carregadas com sucesso!", 'success', 3000);
         }
     } catch (error) {
-        console.error("Erro ao carregar Unidades: ", error);
-        exibirMensagem("Erro ao carregar Unidades.", 'error', 3000);
+        console.error("Erro ao carregar Usuarios: ", error);
+        exibirMensagem("Erro ao carregar Usuarios.", 'error', 3000);
     } finally {
         isLoading.value = false;
     }
 }
 
 onMounted(() => {
-    carregarUnidades();
+    carregarUsuarios();
 })
 </script>
