@@ -96,7 +96,7 @@ namespace RadarHub.Dominio.Servicos
                     _mensagens.Limpar();
                     try
                     {
-                        var existente = await ObterPorIdTerceiroAssincrono(item.Id);
+                        var existente = await ObterPorIdTerceiroAssincronoParaImportacao(item.Id);
                         var licitacaoFinal = await MapearLicitacaoAsync(item, existente);
 
                         if (licitacaoFinal == null)
