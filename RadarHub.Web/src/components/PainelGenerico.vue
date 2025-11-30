@@ -9,6 +9,10 @@
                             <v-icon>mdi-import</v-icon>
                             Importar
                         </v-btn>
+                         <v-btn v-if="criar" @click="criar" color="green-primary">
+                            <v-icon>mdi-plus-circle-outline</v-icon>
+                            Criar
+                        </v-btn>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -290,6 +294,10 @@ defineProps({
         required: true
     },
     importar: {
+        type: Function,
+        required: false
+    },
+    criar: {
         type: Function,
         required: false
     },
