@@ -20,12 +20,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: Login
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Perfil,
       meta: { requireAuth: true }

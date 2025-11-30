@@ -8,7 +8,7 @@ const route = useRoute()
 
 <template>
   <v-app>
-    <NavigationDrawer v-if="!['/login'].includes(route.path)"></NavigationDrawer>
+    <NavigationDrawer v-if="!['/login' && '/'].includes(route.path)"></NavigationDrawer>
     <main :class="route.path !== '/' && route.path !== '/login' ? 'ml-[70px]' : ''">
       <RouterView />
     </main>

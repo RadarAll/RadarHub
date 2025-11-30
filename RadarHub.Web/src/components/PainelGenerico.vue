@@ -42,6 +42,7 @@
                             <template v-for="header in headers.filter(h => h.key != 'id' && h.key != 'ativo')" v-slot:[`item.${header.key}`]="{ item }" :key="header.key">
                                 <div v-if="header.key != 'id'" class="font-weight-medium text-body-1">{{ item[header.key] }}</div>
                             </template>
+                            
                             </v-data-table>
 
                             <v-data-table v-else
@@ -76,10 +77,17 @@
                                     </v-chip>
                                 </div>
 
-                                <div v-if="selectItem.nome" class="mb-4">
+                                <div v-if="selectedItem.nome" class="mb-4">
                                     <v-chip color="green-primary" label class="mb-3">
                                         <v-icon start>mdi-gavel</v-icon>
                                         {{ selectedItem.nome }}
+                                    </v-chip>
+                                </div>
+
+                                <div v-if="selectedItem.nomeSugerido" class="mb-4">
+                                    <v-chip color="green-primary" label class="mb-3">
+                                        <v-icon start>mdi-gavel</v-icon>
+                                        {{ selectedItem.nomeSugerido }}
                                     </v-chip>
                                 </div>
                                 
@@ -105,6 +113,16 @@
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
+                                    <v-list-item v-if="selectedItem.confiancaPercentual" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-percent</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Percentual</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                                {{ selectedItem.confiancaPercentual }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
                                     <v-list-item v-if="selectedItem.nomeCompleto" class="px-0">
                                         <template v-slot:prepend>
                                             <v-icon color="grey-darken-1">mdi-information-box-outline</v-icon>
@@ -122,6 +140,46 @@
                                         <v-list-item-title class="text-caption text-grey-darken-1">Nome</v-list-item-title>
                                         <v-list-item-subtitle class="text-body-2 font-weight-medium">
                                                 {{ selectedItem.email }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.descricaoSugerida" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-text-box-outline</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Descrição Sugerida</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                                {{ selectedItem.descricaoSugerida }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.licitacaoIds" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-identifier</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Licitações Id's</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            #{{ selectedItem.licitacaoIds }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.quantidadeLicitacoesOriginarias" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-gavel</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Licitações Originárias</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            #{{ selectedItem.quantidadeLicitacoesOriginarias }}
+                                        </v-list-item-subtitle>
+                                    </v-list-item>
+
+                                    <v-list-item v-if="selectedItem.palavrasChaveSugeridas" class="px-0">
+                                        <template v-slot:prepend>
+                                            <v-icon color="grey-darken-1">mdi-key-outline</v-icon>
+                                        </template>
+                                        <v-list-item-title class="text-caption text-grey-darken-1">Palavras Chaves Sugeridas</v-list-item-title>
+                                        <v-list-item-subtitle class="text-body-2 font-weight-medium">
+                                            #{{ selectedItem.palavrasChaveSugeridas }}
                                         </v-list-item-subtitle>
                                     </v-list-item>
 
@@ -207,10 +265,22 @@
                
                     </v-col>
                 </v-row>
+
+                <v-row v-if="selectedItem && route.path === '/sugestoes' ">
+                    <v-col cols="8"  class="d-flex align-center justify-center">
+                        <v-btn @click="aprovar" color="success" class="mr-5 text-neutral-light"><v-icon>mdi-check</v-icon> Aprovar</v-btn>
+                        <v-btn color="red-dark-md"><v-icon>mdi-close</v-icon> Rejeitar</v-btn>
+                    </v-col>
+                </v-row>
+
 </template>
 
 <script setup>
 import { ref,} from 'vue'
+import { useRoute } from 'vue-router'
+import axios from 'axios'
+
+const route = useRoute()
 
 const selectedItem = ref(null);
 
@@ -232,6 +302,22 @@ defineProps({
         required: true
     }
 })
+
+async function aprovar() {
+    try {
+        const response = await axios.post(`https://localhost:7203/api/SugestoesSegmento/${selectedItem.value.id}/aprovar`,
+            { usuarioRevisao: localStorage.getItem('emailUsuario') }
+        )
+
+        if (response.status >= 200 && response.status < 300) {
+            console.log('Sugestão aprovada com sucesso!');
+            window.location.reload()
+
+        }
+    } catch (error) {
+        console.log('Erro ao aprovar Sugestão:', error);
+    }
+}
 
 function selectItem(event, { item }) {
     selectedItem.value = item

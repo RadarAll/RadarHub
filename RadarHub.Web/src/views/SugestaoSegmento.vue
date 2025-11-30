@@ -1,7 +1,7 @@
 <template>
     <v-main class="bg-grey-lighten-4">
         <AppBar :titulo="titulo"></AppBar>
-        <v-container class="fluid">
+        <v-container fluid>
             <PainelGenerico
             :carregar="carregarSugestoes"
             :headers="headers"
@@ -17,10 +17,10 @@
 
 <script setup>
 import { ref, onMounted, computed} from 'vue'
-import SugestaoSegmentoService from '@/servicos/SugestaoSegmentoController';
 import Alert from '@/components/Alert.vue';
 import PainelGenerico from '@/components/PainelGenerico.vue';
 import AppBar from '@/components/AppBar.vue';
+import axios from 'axios';
 
 const isLoading = ref(false);
 const mensagem = ref({
@@ -34,7 +34,7 @@ const sugestoesSegmentos = ref([]);
 const headers = computed(() => {
     if (!sugestoesSegmentos.value.length) return []
 
-    const keys = Object.keys(sugestoesSegmentos.value[0]).filter(key => key != 'id')
+    const keys = Object.keys(sugestoesSegmentos.value[0]).filter(key => key != 'id' && key != 'descricaoSugerida' && key != 'origem' && key != 'criadoEm' && key != 'ultimaAlteracao' && key != 'licitacaoIds' && key != 'segmentoIdGerado' && key != 'motivoRejeicao' && key != 'dataRevisao' && key != 'usuarioRevisao')
 
     return [
         {
@@ -62,12 +62,12 @@ async function carregarSugestoes() {
     isLoading.value = true;
 
     try {
-        const response = await SugestaoSegmentoService.obterTodos();
+        const response = await axios.get('https://localhost:7203/api/SugestoesSegmento/pendentes')
 
         if (response.status >= 200 && response.status < 300) {
-            sugestoesSegmentos.value = response.data || [];
-            console.log('Sugestões de Segmentos carregadas:', tipos.value);
-            exibirMensagem('Sugestões de Segmentos carregadas com sucesso!', 'info', 3000)
+            sugestoesSegmentos.value = response.data.sugestoes || [];
+            console.log('Sugestões de Segmentos carregadas:', sugestoesSegmentos.value);
+            exibirMensagem('Sugestões de Segmentos carregadas com sucesso!', 'success', 3000)
         }
 
     } catch (error) {
