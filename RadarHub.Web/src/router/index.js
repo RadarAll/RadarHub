@@ -28,91 +28,91 @@ const router = createRouter({
       path: '/home',
       name: 'home',
       component: Perfil,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/perfil',
       name: 'perfil',
       component: Perfil,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/usuarios',
       name: 'usuario',
       component: Usuario,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/licitacoes',
       name: 'licitacoes',
       component: Licitacao,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/orgaos',
       name: 'orgaos',
       component: Orgao,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/modalidades',
       name: 'modalidade',
       component: Modalidade,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/poderes',
       name: 'poderes',
       component: Poder,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/municipios',
       name: 'municipios',
       component: Municipio,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/tipos',
       name: 'tipos',
       component: Tipo,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/tiposMargemPreferencia',
       name: 'tipoMargemPreferencia',
       component: TipoMargemPreferencia,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/ufs',
       name: 'ufs',
       component: Uf,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/unidades',
       name: 'unidades',
       component: Unidade,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/fontesOrcamentarias',
       name: 'fontesOrcamentarias',
       component: FonteOrcamentaria,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/sugestoes',
       name: 'sugestoes',
       component: SugestaoSegmento,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/segmentos',
       name: 'segmentos',
       component: Segmento,
-      meta: { requireAuth: true }
+      meta: { requiresAuth: true }
     }
   ],
 })
@@ -120,8 +120,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const logado = !!localStorage.getItem('token')
 
-  if (to.meta.requireAuth && !logado) {
-    next('/login')
+  if (to.meta.requiresAuth && !logado) {
+    next({ name: 'login' })
   } else {
     next()
   }

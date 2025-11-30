@@ -21,6 +21,16 @@
               <v-icon start>mdi-login</v-icon>
               Entrar
             </v-btn>
+
+            <v-alert v-if="message.type == 'error'" color="red-dark-md" type="error" density="comfortable" class="mt-4 text-caption pa-1 d-flex justify-center text-neutral-light">
+              {{ message.text }}
+            </v-alert>
+            
+            <v-alert v-if="message.type == 'success'" type="success" density="comfortable" class="mt-4 text-caption pa-1 d-flex justify-center text-neutral-light">
+              {{ message.text }}
+            </v-alert>
+
+
           </v-card>
         </v-col>
       </v-row>
@@ -34,6 +44,10 @@ import axios from 'axios'
 
 const email = ref('')
 const senha = ref('')
+const message = ref({
+  type: '',
+  text: ''
+})
 
 const login = async () => {
 
@@ -43,15 +57,32 @@ const login = async () => {
             senha: senha.value
         })
 
-        const token = response.data.token
+        if (response.status >= 200 && response.status < 300) {
+          const token = response.data.token
 
-        localStorage.setItem('token', token)
-        localStorage.setItem('emailUsuario', email.value)
+          localStorage.setItem('token', token)
+          localStorage.setItem('emailUsuario', email.value) 
+
+          atualizarMensagem('success', 'Login realizado com sucesso!')
+          setTimeout(() => {
+            window.location.href = '/home'
+          }, 2000)
+        }
         
-        window.location.href = '/home'
     } catch (error) {
         console.log('Erro no Login:', error);
+        atualizarMensagem('error', 'Credenciais inválidas.')
     }
+}
+
+function atualizarMensagem (type, text, duration = 3000) {
+  message.value.type = type;
+  message.value.text = text;
+
+  setTimeout(() => {
+    message.value.text = ''
+    message.value.type = ''
+  }, duration)
 }
 
 </script>

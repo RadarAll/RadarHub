@@ -76,6 +76,9 @@
 
 <script setup>
 import logo from '@/assets/logo.png'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const filtros = [
         {nome: 'Modalidade', rota: '/modalidades'},
@@ -91,6 +94,6 @@ const filtros = [
 
 const logout = () => {
         localStorage.removeItem('token')
-        window.location.href = '/'
+          router.push('/')
 }
 </script>
