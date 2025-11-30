@@ -8,7 +8,7 @@
                         <v-divider class="mb-4"></v-divider>
 
                         <v-list density="comfortable">
-                                <v-list-item class="mb-1 pl-8" to="/">
+                                <v-list-item class="mb-1 pl-8" to="/perfil">
                                         <div class="d-flex flex-row align-center ga-3">
                                                 <v-icon color="green-primary">mdi-home-variant-outline</v-icon>
                                                 <span class="font-weight-medium text-green-primary text-no-wrap text-subtitle-2 overflow-hidden">Dashboard</span>
@@ -91,6 +91,6 @@ const filtros = [
 
 const logout = () => {
         localStorage.removeItem('token')
-        window.location.href = '/login'
+        window.location.href = '/'
 }
 </script>

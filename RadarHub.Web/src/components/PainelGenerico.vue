@@ -272,7 +272,7 @@
 
                 <v-row v-if="selectedItem && route.path === '/sugestoes' ">
                     <v-col cols="8"  class="d-flex align-center justify-center">
-                        <v-btn @click="aprovar" color="success" class="mr-5 text-neutral-light"><v-icon>mdi-check</v-icon> Aprovar</v-btn>
+                        <v-btn @click="aprovar" color="green-primary" class="mr-5 text-neutral-light"><v-icon>mdi-check</v-icon> Aprovar</v-btn>
                         <v-btn color="red-dark-md"><v-icon>mdi-close</v-icon> Rejeitar</v-btn>
                     </v-col>
                 </v-row>
